@@ -22,12 +22,12 @@
 
 | Role | Name | Enrollment No. | GitHub Username |
 |------|------|----------------|-----------------|
-| Group Lead | | | |
-| Member 2 | | | |
-| Member 3 | | | |
-| Member 4 | | | |
+| Group Lead | Saksham Kachhawaha | 2501010399 | sakshamkachhawaha |
+| Member 2 | Saksham Paliwal | 2501010398 | sakshampaliwal21 |
+| Member 3 | Arnav Bansal | 2501010643 | arnavbansal12 |
+| Member 4 | Barnak Das | 2501010113 | Barnakdas-tech |
 
-**Team No.:** ____ · **Section:** ____ · **Repository URL:** ____
+**Team No.:** T0046 · **Section:** A · **Repository URL:** https://github.com/sakshamkachhawaha/DE_Project_2026.git
 
 ---
 

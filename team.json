@@ -1,0 +1,11 @@
+{
+  "team_number": "T0046",
+  "group_lead": { "name": "Saksham Kachhawaha", "enrollment_no": "2501010399", "github": "sakshamkachhawaha" },
+  "members": [
+    { "name": "Saksham Paliwal", "enrollment_no": "2501010398", "github": "sakshampaliwal21" },
+    { "name": "Arnav Bansal", "enrollment_no": "2501010643", "github": "arnavbansal12" },
+    { "name": "Barnak Das", "enrollment_no": "2501010113", "github": "Barnakdas-tech" }
+  ],
+  "postgres_version": "",
+  "laptop_used_for_benchmarks": "Macbook Pro, Apple M4, 16GB RAM"
+}
