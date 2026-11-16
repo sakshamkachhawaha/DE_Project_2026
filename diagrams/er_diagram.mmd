@@ -1,0 +1,102 @@
+erDiagram
+    USERS ||--o| CHANNELS : owns
+    CHANNELS ||--o{ VIDEOS : publishes
+    USERS ||--o{ SUBSCRIPTIONS : subscribes
+    CHANNELS ||--o{ SUBSCRIPTIONS : receives
+    USERS ||--o{ WATCH_EVENTS : generates
+    VIDEOS ||--o{ WATCH_EVENTS : receives
+    USERS ||--o{ VIDEO_REACTIONS : reacts
+    VIDEOS ||--o{ VIDEO_REACTIONS : receives
+    USERS ||--o{ COMMENTS : writes
+    VIDEOS ||--o{ COMMENTS : has
+    COMMENTS ||--o{ COMMENTS : replies_to
+    USERS ||--o{ PLAYLISTS : owns
+    PLAYLISTS ||--o{ PLAYLIST_ITEMS : contains
+    VIDEOS ||--o{ PLAYLIST_ITEMS : included_in
+    WATCH_EVENTS ||--o{ AD_IMPRESSIONS : shows
+
+    USERS {
+        int user_id PK
+        string email UK
+        string display_name
+        string country_code
+        int birth_year
+        date premium_until
+        timestamp created_at
+    }
+    CHANNELS {
+        int channel_id PK
+        int owner_user_id FK,UK
+        string handle UK
+        string channel_name
+        string country_code
+        boolean is_verified
+        string monetization_status
+        bigint subscriber_count
+        timestamp created_at
+    }
+    VIDEOS {
+        string video_id PK
+        int channel_id FK
+        string title
+        string description
+        string category
+        int duration_sec
+        boolean is_short
+        boolean is_made_for_kids
+        string visibility
+        timestamp uploaded_at
+        timestamp published_at
+        bigint view_count
+    }
+    SUBSCRIPTIONS {
+        int user_id PK,FK
+        int channel_id PK,FK
+        string notifications
+        timestamp subscribed_at
+    }
+    WATCH_EVENTS {
+        bigint watch_id PK
+        int user_id FK
+        string video_id FK
+        timestamp started_at
+        int watch_seconds
+        string device
+        string traffic_source
+    }
+    VIDEO_REACTIONS {
+        int user_id PK,FK
+        string video_id PK,FK
+        string reaction
+        timestamp reacted_at
+    }
+    COMMENTS {
+        bigint comment_id PK
+        string video_id FK
+        int user_id FK
+        bigint parent_comment_id FK
+        string body
+        int like_count
+        boolean is_pinned
+        timestamp created_at
+    }
+    PLAYLISTS {
+        int playlist_id PK
+        int owner_user_id FK
+        string title
+        string visibility
+        timestamp created_at
+    }
+    PLAYLIST_ITEMS {
+        int playlist_id PK,FK
+        string video_id PK,FK
+        int position UK
+        timestamp added_at
+    }
+    AD_IMPRESSIONS {
+        bigint impression_id PK
+        bigint watch_id FK
+        string ad_format
+        numeric revenue_inr
+        timestamp shown_at
+    }
