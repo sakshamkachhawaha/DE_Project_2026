@@ -1,0 +1,45 @@
+=== R23 run 1 ===
+Limit  (cost=1714.10..1715.53 rows=25 width=52) (actual time=4.955..4.962 rows=25 loops=1)
+  Buffers: shared hit=464
+  ->  Index Scan using comments_created_idx on comments  (cost=0.29..3427.91 rows=60000 width=52) (actual time=0.012..3.927 rows=30025 loops=1)
+        Buffers: shared hit=464
+Planning:
+  Buffers: shared hit=164
+Planning Time: 0.531 ms
+Execution Time: 4.985 ms
+=== R23 run 2 ===
+Limit  (cost=1714.10..1715.53 rows=25 width=52) (actual time=5.073..5.079 rows=25 loops=1)
+  Buffers: shared hit=464
+  ->  Index Scan using comments_created_idx on comments  (cost=0.29..3427.91 rows=60000 width=52) (actual time=0.011..4.077 rows=30025 loops=1)
+        Buffers: shared hit=464
+Planning:
+  Buffers: shared hit=164
+Planning Time: 0.431 ms
+Execution Time: 5.096 ms
+=== R23 run 3 ===
+Limit  (cost=1714.10..1715.53 rows=25 width=52) (actual time=5.391..5.398 rows=25 loops=1)
+  Buffers: shared hit=464
+  ->  Index Scan using comments_created_idx on comments  (cost=0.29..3427.91 rows=60000 width=52) (actual time=0.017..4.306 rows=30025 loops=1)
+        Buffers: shared hit=464
+Planning:
+  Buffers: shared hit=164
+Planning Time: 0.683 ms
+Execution Time: 5.431 ms
+=== R23 run 4 ===
+Limit  (cost=1714.10..1715.53 rows=25 width=52) (actual time=5.050..5.057 rows=25 loops=1)
+  Buffers: shared hit=464
+  ->  Index Scan using comments_created_idx on comments  (cost=0.29..3427.91 rows=60000 width=52) (actual time=0.042..4.056 rows=30025 loops=1)
+        Buffers: shared hit=464
+Planning:
+  Buffers: shared hit=164
+Planning Time: 0.937 ms
+Execution Time: 5.107 ms
+=== R23 run 5 ===
+Limit  (cost=1714.10..1715.53 rows=25 width=52) (actual time=4.886..4.905 rows=25 loops=1)
+  Buffers: shared hit=464
+  ->  Index Scan using comments_created_idx on comments  (cost=0.29..3427.91 rows=60000 width=52) (actual time=0.012..3.895 rows=30025 loops=1)
+        Buffers: shared hit=464
+Planning:
+  Buffers: shared hit=164
+Planning Time: 0.458 ms
+Execution Time: 4.932 ms

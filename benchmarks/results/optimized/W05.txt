@@ -1,0 +1,70 @@
+=== W05 run 1 ===
+Update on videos  (cost=8.58..180.84 rows=0 width=0) (actual time=1.245..1.246 rows=0 loops=1)
+  Buffers: shared hit=173
+  ->  Bitmap Heap Scan on videos  (cost=8.58..180.84 rows=57 width=38) (actual time=0.014..0.033 rows=7 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND (visibility = 'SCHEDULED'::text))
+        Heap Blocks: exact=7
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on videos_scheduled_published_idx  (cost=0.00..8.57 rows=57 width=0) (actual time=0.006..0.007 rows=7 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=185
+Planning Time: 0.626 ms
+Execution Time: 1.318 ms
+=== W05 run 2 ===
+Update on videos  (cost=8.58..180.84 rows=0 width=0) (actual time=1.436..1.437 rows=0 loops=1)
+  Buffers: shared hit=173
+  ->  Bitmap Heap Scan on videos  (cost=8.58..180.84 rows=57 width=38) (actual time=0.019..0.042 rows=7 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND (visibility = 'SCHEDULED'::text))
+        Heap Blocks: exact=7
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on videos_scheduled_published_idx  (cost=0.00..8.57 rows=57 width=0) (actual time=0.007..0.007 rows=7 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=185
+Planning Time: 0.671 ms
+Execution Time: 1.510 ms
+=== W05 run 3 ===
+Update on videos  (cost=8.58..180.84 rows=0 width=0) (actual time=1.894..1.894 rows=0 loops=1)
+  Buffers: shared hit=173 dirtied=1 written=1
+  ->  Bitmap Heap Scan on videos  (cost=8.58..180.84 rows=57 width=38) (actual time=0.020..0.058 rows=7 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND (visibility = 'SCHEDULED'::text))
+        Heap Blocks: exact=7
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on videos_scheduled_published_idx  (cost=0.00..8.57 rows=57 width=0) (actual time=0.007..0.008 rows=7 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=185
+Planning Time: 0.631 ms
+Execution Time: 1.970 ms
+=== W05 run 4 ===
+Update on videos  (cost=8.58..180.84 rows=0 width=0) (actual time=1.221..1.221 rows=0 loops=1)
+  Buffers: shared hit=173
+  ->  Bitmap Heap Scan on videos  (cost=8.58..180.84 rows=57 width=38) (actual time=0.018..0.045 rows=7 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND (visibility = 'SCHEDULED'::text))
+        Heap Blocks: exact=7
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on videos_scheduled_published_idx  (cost=0.00..8.57 rows=57 width=0) (actual time=0.006..0.006 rows=7 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=185
+Planning Time: 0.611 ms
+Execution Time: 1.294 ms
+=== W05 run 5 ===
+Update on videos  (cost=8.58..180.84 rows=0 width=0) (actual time=1.853..1.855 rows=0 loops=1)
+  Buffers: shared hit=173
+  ->  Bitmap Heap Scan on videos  (cost=8.58..180.84 rows=57 width=38) (actual time=0.019..0.087 rows=7 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND (visibility = 'SCHEDULED'::text))
+        Heap Blocks: exact=7
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on videos_scheduled_published_idx  (cost=0.00..8.57 rows=57 width=0) (actual time=0.008..0.010 rows=7 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=185
+Planning Time: 1.142 ms
+Execution Time: 1.939 ms
