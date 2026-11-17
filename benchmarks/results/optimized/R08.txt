@@ -1,0 +1,115 @@
+=== R08 run 1 ===
+Sort  (cost=35.38..35.39 rows=4 width=49) (actual time=0.204..0.205 rows=5 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=24
+  ->  GroupAggregate  (cost=35.20..35.34 rows=4 width=49) (actual time=0.170..0.178 rows=5 loops=1)
+        Group Key: traffic_source
+        Buffers: shared hit=21
+        ->  Sort  (cost=35.20..35.22 rows=8 width=13) (actual time=0.146..0.148 rows=14 loops=1)
+              Sort Key: traffic_source
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=21
+              ->  Bitmap Heap Scan on watch_events  (cost=4.48..35.08 rows=8 width=13) (actual time=0.036..0.120 rows=14 loops=1)
+                    Recheck Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
+                    Heap Blocks: exact=15
+                    Buffers: shared hit=18
+                    ->  Bitmap Index Scan on watch_events_video_started_idx  (cost=0.00..4.48 rows=8 width=0) (actual time=0.024..0.024 rows=15 loops=1)
+                          Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
+                          Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=215
+Planning Time: 1.174 ms
+Execution Time: 0.297 ms
+=== R08 run 2 ===
+Sort  (cost=35.38..35.39 rows=4 width=49) (actual time=0.173..0.174 rows=5 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=24
+  ->  GroupAggregate  (cost=35.20..35.34 rows=4 width=49) (actual time=0.138..0.142 rows=5 loops=1)
+        Group Key: traffic_source
+        Buffers: shared hit=21
+        ->  Sort  (cost=35.20..35.22 rows=8 width=13) (actual time=0.124..0.124 rows=14 loops=1)
+              Sort Key: traffic_source
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=21
+              ->  Bitmap Heap Scan on watch_events  (cost=4.48..35.08 rows=8 width=13) (actual time=0.035..0.106 rows=14 loops=1)
+                    Recheck Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
+                    Heap Blocks: exact=15
+                    Buffers: shared hit=18
+                    ->  Bitmap Index Scan on watch_events_video_started_idx  (cost=0.00..4.48 rows=8 width=0) (actual time=0.023..0.023 rows=15 loops=1)
+                          Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
+                          Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=215
+Planning Time: 1.390 ms
+Execution Time: 0.247 ms
+=== R08 run 3 ===
+Sort  (cost=35.38..35.39 rows=4 width=49) (actual time=0.247..0.248 rows=5 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=24
+  ->  GroupAggregate  (cost=35.20..35.34 rows=4 width=49) (actual time=0.212..0.220 rows=5 loops=1)
+        Group Key: traffic_source
+        Buffers: shared hit=21
+        ->  Sort  (cost=35.20..35.22 rows=8 width=13) (actual time=0.191..0.192 rows=14 loops=1)
+              Sort Key: traffic_source
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=21
+              ->  Bitmap Heap Scan on watch_events  (cost=4.48..35.08 rows=8 width=13) (actual time=0.048..0.161 rows=14 loops=1)
+                    Recheck Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
+                    Heap Blocks: exact=15
+                    Buffers: shared hit=18
+                    ->  Bitmap Index Scan on watch_events_video_started_idx  (cost=0.00..4.48 rows=8 width=0) (actual time=0.032..0.032 rows=15 loops=1)
+                          Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
+                          Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=215
+Planning Time: 1.202 ms
+Execution Time: 0.334 ms
+=== R08 run 4 ===
+Sort  (cost=35.38..35.39 rows=4 width=49) (actual time=0.232..0.234 rows=5 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=24
+  ->  GroupAggregate  (cost=35.20..35.34 rows=4 width=49) (actual time=0.196..0.207 rows=5 loops=1)
+        Group Key: traffic_source
+        Buffers: shared hit=21
+        ->  Sort  (cost=35.20..35.22 rows=8 width=13) (actual time=0.174..0.176 rows=14 loops=1)
+              Sort Key: traffic_source
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=21
+              ->  Bitmap Heap Scan on watch_events  (cost=4.48..35.08 rows=8 width=13) (actual time=0.040..0.148 rows=14 loops=1)
+                    Recheck Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
+                    Heap Blocks: exact=15
+                    Buffers: shared hit=18
+                    ->  Bitmap Index Scan on watch_events_video_started_idx  (cost=0.00..4.48 rows=8 width=0) (actual time=0.026..0.026 rows=15 loops=1)
+                          Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
+                          Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=215
+Planning Time: 0.832 ms
+Execution Time: 0.304 ms
+=== R08 run 5 ===
+Sort  (cost=35.38..35.39 rows=4 width=49) (actual time=0.248..0.250 rows=5 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=24
+  ->  GroupAggregate  (cost=35.20..35.34 rows=4 width=49) (actual time=0.213..0.222 rows=5 loops=1)
+        Group Key: traffic_source
+        Buffers: shared hit=21
+        ->  Sort  (cost=35.20..35.22 rows=8 width=13) (actual time=0.191..0.193 rows=14 loops=1)
+              Sort Key: traffic_source
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=21
+              ->  Bitmap Heap Scan on watch_events  (cost=4.48..35.08 rows=8 width=13) (actual time=0.042..0.167 rows=14 loops=1)
+                    Recheck Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
+                    Heap Blocks: exact=15
+                    Buffers: shared hit=18
+                    ->  Bitmap Index Scan on watch_events_video_started_idx  (cost=0.00..4.48 rows=8 width=0) (actual time=0.030..0.030 rows=15 loops=1)
+                          Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
+                          Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=215
+Planning Time: 1.202 ms
+Execution Time: 0.325 ms

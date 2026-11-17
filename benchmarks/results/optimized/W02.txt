@@ -1,0 +1,40 @@
+=== W02 run 1 ===
+Insert on watch_events  (cost=0.00..0.01 rows=0 width=0) (actual time=0.289..0.289 rows=0 loops=1)
+  Buffers: shared hit=124
+  ->  Result  (cost=0.00..0.01 rows=1 width=128) (actual time=0.003..0.003 rows=1 loops=1)
+Planning Time: 0.053 ms
+Trigger for constraint watch_events_user_id_fkey: time=0.447 calls=1
+Trigger for constraint watch_events_video_id_fkey: time=0.579 calls=1
+Execution Time: 1.331 ms
+=== W02 run 2 ===
+Insert on watch_events  (cost=0.00..0.01 rows=0 width=0) (actual time=0.280..0.281 rows=0 loops=1)
+  Buffers: shared hit=125
+  ->  Result  (cost=0.00..0.01 rows=1 width=128) (actual time=0.002..0.002 rows=1 loops=1)
+Planning Time: 0.067 ms
+Trigger for constraint watch_events_user_id_fkey: time=0.429 calls=1
+Trigger for constraint watch_events_video_id_fkey: time=0.564 calls=1
+Execution Time: 1.291 ms
+=== W02 run 3 ===
+Insert on watch_events  (cost=0.00..0.01 rows=0 width=0) (actual time=0.348..0.348 rows=0 loops=1)
+  Buffers: shared hit=125
+  ->  Result  (cost=0.00..0.01 rows=1 width=128) (actual time=0.002..0.003 rows=1 loops=1)
+Planning Time: 0.073 ms
+Trigger for constraint watch_events_user_id_fkey: time=0.462 calls=1
+Trigger for constraint watch_events_video_id_fkey: time=0.588 calls=1
+Execution Time: 1.421 ms
+=== W02 run 4 ===
+Insert on watch_events  (cost=0.00..0.01 rows=0 width=0) (actual time=0.294..0.295 rows=0 loops=1)
+  Buffers: shared hit=125
+  ->  Result  (cost=0.00..0.01 rows=1 width=128) (actual time=0.002..0.003 rows=1 loops=1)
+Planning Time: 0.056 ms
+Trigger for constraint watch_events_user_id_fkey: time=0.448 calls=1
+Trigger for constraint watch_events_video_id_fkey: time=0.636 calls=1
+Execution Time: 1.395 ms
+=== W02 run 5 ===
+Insert on watch_events  (cost=0.00..0.01 rows=0 width=0) (actual time=0.601..0.601 rows=0 loops=1)
+  Buffers: shared hit=125
+  ->  Result  (cost=0.00..0.01 rows=1 width=128) (actual time=0.003..0.003 rows=1 loops=1)
+Planning Time: 0.067 ms
+Trigger for constraint watch_events_user_id_fkey: time=1.099 calls=1
+Trigger for constraint watch_events_video_id_fkey: time=1.522 calls=1
+Execution Time: 3.252 ms

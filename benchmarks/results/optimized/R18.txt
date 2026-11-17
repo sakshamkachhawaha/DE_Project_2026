@@ -1,0 +1,105 @@
+=== R18 run 1 ===
+Sort  (cost=2357.41..2358.28 rows=346 width=40) (actual time=2.048..2.062 rows=397 loops=1)
+  Sort Key: v.video_id
+  Sort Method: quicksort  Memory: 57kB
+  Buffers: shared hit=1748
+  ->  Nested Loop Semi Join  (cost=19.18..2342.82 rows=346 width=40) (actual time=0.086..1.936 rows=397 loops=1)
+        Buffers: shared hit=1745
+        ->  Bitmap Heap Scan on videos v  (cost=18.89..648.19 rows=499 width=40) (actual time=0.077..0.676 rows=499 loops=1)
+              Recheck Cond: is_made_for_kids
+              Heap Blocks: exact=347
+              Buffers: shared hit=350
+              ->  Bitmap Index Scan on videos_kids_idx  (cost=0.00..18.77 rows=499 width=0) (actual time=0.042..0.042 rows=499 loops=1)
+                    Buffers: shared hit=3
+        ->  Index Only Scan using comments_video_idx on comments c  (cost=0.29..7.04 rows=3 width=12) (actual time=0.002..0.002 rows=1 loops=499)
+              Index Cond: (video_id = (v.video_id)::text)
+              Heap Fetches: 397
+              Buffers: shared hit=1395
+Planning:
+  Buffers: shared hit=386
+Planning Time: 1.263 ms
+Execution Time: 2.112 ms
+=== R18 run 2 ===
+Sort  (cost=2357.41..2358.28 rows=346 width=40) (actual time=2.009..2.022 rows=397 loops=1)
+  Sort Key: v.video_id
+  Sort Method: quicksort  Memory: 57kB
+  Buffers: shared hit=1748
+  ->  Nested Loop Semi Join  (cost=19.18..2342.82 rows=346 width=40) (actual time=0.086..1.893 rows=397 loops=1)
+        Buffers: shared hit=1745
+        ->  Bitmap Heap Scan on videos v  (cost=18.89..648.19 rows=499 width=40) (actual time=0.076..0.673 rows=499 loops=1)
+              Recheck Cond: is_made_for_kids
+              Heap Blocks: exact=347
+              Buffers: shared hit=350
+              ->  Bitmap Index Scan on videos_kids_idx  (cost=0.00..18.77 rows=499 width=0) (actual time=0.041..0.041 rows=499 loops=1)
+                    Buffers: shared hit=3
+        ->  Index Only Scan using comments_video_idx on comments c  (cost=0.29..7.04 rows=3 width=12) (actual time=0.002..0.002 rows=1 loops=499)
+              Index Cond: (video_id = (v.video_id)::text)
+              Heap Fetches: 397
+              Buffers: shared hit=1395
+Planning:
+  Buffers: shared hit=386
+Planning Time: 1.078 ms
+Execution Time: 2.071 ms
+=== R18 run 3 ===
+Sort  (cost=2357.41..2358.28 rows=346 width=40) (actual time=2.078..2.093 rows=397 loops=1)
+  Sort Key: v.video_id
+  Sort Method: quicksort  Memory: 57kB
+  Buffers: shared hit=1748
+  ->  Nested Loop Semi Join  (cost=19.18..2342.82 rows=346 width=40) (actual time=0.094..1.962 rows=397 loops=1)
+        Buffers: shared hit=1745
+        ->  Bitmap Heap Scan on videos v  (cost=18.89..648.19 rows=499 width=40) (actual time=0.084..0.700 rows=499 loops=1)
+              Recheck Cond: is_made_for_kids
+              Heap Blocks: exact=347
+              Buffers: shared hit=350
+              ->  Bitmap Index Scan on videos_kids_idx  (cost=0.00..18.77 rows=499 width=0) (actual time=0.046..0.047 rows=499 loops=1)
+                    Buffers: shared hit=3
+        ->  Index Only Scan using comments_video_idx on comments c  (cost=0.29..7.04 rows=3 width=12) (actual time=0.002..0.002 rows=1 loops=499)
+              Index Cond: (video_id = (v.video_id)::text)
+              Heap Fetches: 397
+              Buffers: shared hit=1395
+Planning:
+  Buffers: shared hit=386
+Planning Time: 1.358 ms
+Execution Time: 2.170 ms
+=== R18 run 4 ===
+Sort  (cost=2357.41..2358.28 rows=346 width=40) (actual time=2.200..2.213 rows=397 loops=1)
+  Sort Key: v.video_id
+  Sort Method: quicksort  Memory: 57kB
+  Buffers: shared hit=1748
+  ->  Nested Loop Semi Join  (cost=19.18..2342.82 rows=346 width=40) (actual time=0.089..2.080 rows=397 loops=1)
+        Buffers: shared hit=1745
+        ->  Bitmap Heap Scan on videos v  (cost=18.89..648.19 rows=499 width=40) (actual time=0.080..0.742 rows=499 loops=1)
+              Recheck Cond: is_made_for_kids
+              Heap Blocks: exact=347
+              Buffers: shared hit=350
+              ->  Bitmap Index Scan on videos_kids_idx  (cost=0.00..18.77 rows=499 width=0) (actual time=0.043..0.043 rows=499 loops=1)
+                    Buffers: shared hit=3
+        ->  Index Only Scan using comments_video_idx on comments c  (cost=0.29..7.04 rows=3 width=12) (actual time=0.002..0.002 rows=1 loops=499)
+              Index Cond: (video_id = (v.video_id)::text)
+              Heap Fetches: 397
+              Buffers: shared hit=1395
+Planning:
+  Buffers: shared hit=386
+Planning Time: 1.746 ms
+Execution Time: 2.264 ms
+=== R18 run 5 ===
+Sort  (cost=2357.41..2358.28 rows=346 width=40) (actual time=2.513..2.539 rows=397 loops=1)
+  Sort Key: v.video_id
+  Sort Method: quicksort  Memory: 57kB
+  Buffers: shared hit=1748
+  ->  Nested Loop Semi Join  (cost=19.18..2342.82 rows=346 width=40) (actual time=0.079..2.375 rows=397 loops=1)
+        Buffers: shared hit=1745
+        ->  Bitmap Heap Scan on videos v  (cost=18.89..648.19 rows=499 width=40) (actual time=0.071..0.823 rows=499 loops=1)
+              Recheck Cond: is_made_for_kids
+              Heap Blocks: exact=347
+              Buffers: shared hit=350
+              ->  Bitmap Index Scan on videos_kids_idx  (cost=0.00..18.77 rows=499 width=0) (actual time=0.039..0.039 rows=499 loops=1)
+                    Buffers: shared hit=3
+        ->  Index Only Scan using comments_video_idx on comments c  (cost=0.29..7.04 rows=3 width=12) (actual time=0.003..0.003 rows=1 loops=499)
+              Index Cond: (video_id = (v.video_id)::text)
+              Heap Fetches: 397
+              Buffers: shared hit=1395
+Planning:
+  Buffers: shared hit=386
+Planning Time: 1.043 ms
+Execution Time: 2.590 ms
