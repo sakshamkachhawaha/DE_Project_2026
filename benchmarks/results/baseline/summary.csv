@@ -1,0 +1,31 @@
+query_id,type,avg_ms,median_ms,min_ms,max_ms,scan_nodes
+R01,READ,3.207,3.104,2.795,3.722,Seq Scan on videos
+R02,READ,0.126,0.051,0.039,0.289,Index Scan using videos_pkey on videos | Index Scan using channels_pkey on channels
+R03,READ,5.304,5.124,5.093,5.695,Seq Scan on videos | Index Only Scan using subscriptions_pkey on subscriptions | Index Scan using channels_pkey on channels
+R04,READ,10.167,9.994,9.740,10.768,Seq Scan on videos
+R05,READ,15.561,7.789,7.626,31.268,Seq Scan on watch_events | Index Scan using videos_pkey on videos
+R06,READ,3.494,3.375,3.318,3.790,Seq Scan on videos
+R07,READ,17.190,16.570,15.810,19.190,Seq Scan on watch_events | Seq Scan on videos
+R08,READ,9.476,9.472,9.377,9.580,Seq Scan on watch_events
+R09,READ,15.698,15.660,15.652,15.781,Seq Scan on watch_events | Seq Scan on videos
+R10,READ,16.081,15.790,15.730,16.723,Seq Scan on watch_events | Seq Scan on videos
+R11,READ,27.696,27.911,26.847,28.331,Seq Scan on watch_events | Seq Scan on videos
+R12,READ,22.949,22.793,22.488,23.565,Seq Scan on watch_events
+R13,READ,31.366,28.426,27.340,38.332,Index Scan using subscriptions_pkey on subscriptions | Seq Scan on watch_events | Seq Scan on videos
+R14,READ,17.424,16.984,16.925,18.363,Seq Scan on video_reactions | Seq Scan on videos
+R15,READ,5.015,4.249,3.972,6.823,Seq Scan on comments
+R16,READ,23.145,21.770,21.416,26.250,Seq Scan on watch_events | Seq Scan on ad_impressions | Index Scan using videos_pkey on videos
+R17,READ,24.069,24.067,23.856,24.285,Seq Scan on watch_events | Seq Scan on videos | Seq Scan on channels
+R18,READ,20.014,19.991,19.524,20.527,Seq Scan on comments | Seq Scan on videos
+R19,READ,25084.082,25083.295,25081.407,25087.544,Seq Scan on channels | Seq Scan on videos | Seq Scan on watch_events
+R20,READ,13.997,14.034,13.920,14.037,Seq Scan on watch_events
+R21,READ,0.269,0.088,0.084,0.634,Index Scan using playlist_items_playlist_id_position_key on playlist_items | Index Scan using videos_pkey on videos
+R22,READ,37.326,37.541,36.647,37.790,Seq Scan on videos
+R23,READ,27.055,26.841,26.433,27.891,Seq Scan on comments
+R24,READ,3.116,2.927,2.886,3.536,Index Scan using subscriptions_pkey on subscriptions
+R25,READ,64.725,64.335,62.873,66.966,Seq Scan on watch_events | Seq Scan on ad_impressions | Seq Scan on users
+W01,WRITE,1.202,0.713,0.701,2.191,(no scan)
+W02,WRITE,0.905,0.731,0.704,1.281,(no scan)
+W03,WRITE,0.548,0.366,0.300,0.979,Index Scan using videos_pkey on videos
+W04,WRITE,61.400,59.035,55.774,69.390,Seq Scan on channels | Seq Scan on subscriptions
+W05,WRITE,3.864,3.684,3.678,4.229,Seq Scan on videos

@@ -1,0 +1,39 @@
+=== R23 run 1 ===
+Limit  (cost=6128.16..6128.23 rows=25 width=52) (actual time=25.627..25.631 rows=25 loops=1)
+  Buffers: shared hit=694, temp read=434 written=491
+  ->  Sort  (cost=6053.16..6203.16 rows=60000 width=52) (actual time=22.669..24.631 rows=30025 loops=1)
+        Sort Key: created_at DESC
+        Sort Method: external merge  Disk: 3912kB
+        Buffers: shared hit=694, temp read=434 written=491
+        ->  Seq Scan on comments  (cost=0.00..1291.00 rows=60000 width=52) (actual time=0.005..6.482 rows=60000 loops=1)
+              Buffers: shared hit=691
+Planning:
+  Buffers: shared hit=113 read=1
+Planning Time: 0.391 ms
+Execution Time: 26.433 ms
+=== R23 run 2 ===
+Limit  (cost=6128.16..6128.23 rows=25 width=52) (actual time=25.817..25.821 rows=25 loops=1)
+  Buffers: shared hit=694, temp read=434 written=491
+  ->  Sort  (cost=6053.16..6203.16 rows=60000 width=52) (actual time=22.803..24.822 rows=30025 loops=1)
+        Sort Key: created_at DESC
+        Sort Method: external merge  Disk: 3912kB
+        Buffers: shared hit=694, temp read=434 written=491
+        ->  Seq Scan on comments  (cost=0.00..1291.00 rows=60000 width=52) (actual time=0.004..6.526 rows=60000 loops=1)
+              Buffers: shared hit=691
+Planning:
+  Buffers: shared hit=114
+Planning Time: 0.284 ms
+Execution Time: 26.841 ms
+=== R23 run 3 ===
+Limit  (cost=6128.16..6128.23 rows=25 width=52) (actual time=26.570..26.574 rows=25 loops=1)
+  Buffers: shared hit=694, temp read=434 written=491
+  ->  Sort  (cost=6053.16..6203.16 rows=60000 width=52) (actual time=23.583..25.578 rows=30025 loops=1)
+        Sort Key: created_at DESC
+        Sort Method: external merge  Disk: 3912kB
+        Buffers: shared hit=694, temp read=434 written=491
+        ->  Seq Scan on comments  (cost=0.00..1291.00 rows=60000 width=52) (actual time=0.007..6.957 rows=60000 loops=1)
+              Buffers: shared hit=691
+Planning:
+  Buffers: shared hit=114
+Planning Time: 0.333 ms
+Execution Time: 27.891 ms

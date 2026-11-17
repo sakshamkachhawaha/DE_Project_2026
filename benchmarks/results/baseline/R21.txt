@@ -1,0 +1,39 @@
+=== R21 run 1 ===
+Nested Loop  (cost=0.58..77.05 rows=7 width=44) (actual time=0.558..0.611 rows=11 loops=1)
+  Buffers: shared hit=33 read=3
+  ->  Index Scan using playlist_items_playlist_id_position_key on playlist_items pi  (cost=0.29..18.91 rows=7 width=16) (actual time=0.543..0.545 rows=11 loops=1)
+        Index Cond: (playlist_id = 501)
+        Buffers: shared read=3
+  ->  Index Scan using videos_pkey on videos v  (cost=0.29..8.30 rows=1 width=40) (actual time=0.006..0.006 rows=1 loops=11)
+        Index Cond: ((video_id)::text = (pi.video_id)::text)
+        Buffers: shared hit=33
+Planning:
+  Buffers: shared hit=237 read=3
+Planning Time: 1.177 ms
+Execution Time: 0.634 ms
+=== R21 run 2 ===
+Nested Loop  (cost=0.58..77.05 rows=7 width=44) (actual time=0.018..0.066 rows=11 loops=1)
+  Buffers: shared hit=36
+  ->  Index Scan using playlist_items_playlist_id_position_key on playlist_items pi  (cost=0.29..18.91 rows=7 width=16) (actual time=0.007..0.009 rows=11 loops=1)
+        Index Cond: (playlist_id = 501)
+        Buffers: shared hit=3
+  ->  Index Scan using videos_pkey on videos v  (cost=0.29..8.30 rows=1 width=40) (actual time=0.005..0.005 rows=1 loops=11)
+        Index Cond: ((video_id)::text = (pi.video_id)::text)
+        Buffers: shared hit=33
+Planning:
+  Buffers: shared hit=240
+Planning Time: 0.509 ms
+Execution Time: 0.088 ms
+=== R21 run 3 ===
+Nested Loop  (cost=0.58..77.05 rows=7 width=44) (actual time=0.025..0.065 rows=11 loops=1)
+  Buffers: shared hit=36
+  ->  Index Scan using playlist_items_playlist_id_position_key on playlist_items pi  (cost=0.29..18.91 rows=7 width=16) (actual time=0.007..0.008 rows=11 loops=1)
+        Index Cond: (playlist_id = 501)
+        Buffers: shared hit=3
+  ->  Index Scan using videos_pkey on videos v  (cost=0.29..8.30 rows=1 width=40) (actual time=0.005..0.005 rows=1 loops=11)
+        Index Cond: ((video_id)::text = (pi.video_id)::text)
+        Buffers: shared hit=33
+Planning:
+  Buffers: shared hit=240
+Planning Time: 0.486 ms
+Execution Time: 0.084 ms
