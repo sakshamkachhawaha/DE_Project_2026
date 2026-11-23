@@ -1,0 +1,273 @@
+=== R11 Partitioned Run 1 ===
+Incremental Sort  (cost=65563.68..83733.94 rows=219780 width=58) (actual time=489.399..501.717 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=688288 read=8499, temp read=1421 written=1425
+  ->  WindowAgg  (cost=65486.20..69881.78 rows=219780 width=58) (actual time=484.450..501.673 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=688282 read=8499, temp read=1421 written=1425
+        ->  Sort  (cost=65486.18..66035.63 rows=219780 width=50) (actual time=484.439..497.464 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=688282 read=8499, temp read=1421 written=1425
+              ->  GroupAggregate  (cost=0.85..38470.93 rows=219780 width=50) (actual time=0.073..441.389 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=688282 read=8499
+                    ->  Nested Loop  (cost=0.85..35174.23 rows=219780 width=42) (actual time=0.067..416.787 rows=219780.00 loops=1)
+                          Buffers: shared hit=688282 read=8499
+                          ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w  (cost=0.42..12890.57 rows=219780 width=12) (actual time=0.020..137.912 rows=219780.00 loops=1)
+                                Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                Heap Fetches: 0
+                                Index Searches: 1
+                                Buffers: shared hit=22 read=2231
+                          ->  Memoize  (cost=0.43..0.73 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=219780)
+                                Cache Key: w.video_id
+                                Cache Mode: logical
+                                Hits: 46148  Misses: 173632  Evictions: 118211  Overflows: 0  Memory Usage: 8193kB
+                                Buffers: shared hit=688260 read=6268
+                                ->  Index Scan using videos_pkey on videos v  (cost=0.42..0.72 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=173632)
+                                      Index Cond: ((video_id)::text = (w.video_id)::text)
+                                      Index Searches: 173632
+                                      Buffers: shared hit=688260 read=6268
+Planning:
+  Buffers: shared hit=546 read=1
+Planning Time: 0.750 ms
+Execution Time: 502.361 ms
+=== R11 Partitioned Run 2 ===
+Incremental Sort  (cost=65563.68..83733.94 rows=219780 width=58) (actual time=322.304..335.299 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=694537 read=2250, temp read=1421 written=1425
+  ->  WindowAgg  (cost=65486.20..69881.78 rows=219780 width=58) (actual time=316.953..335.246 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=694531 read=2250, temp read=1421 written=1425
+        ->  Sort  (cost=65486.18..66035.63 rows=219780 width=50) (actual time=316.943..330.449 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=694531 read=2250, temp read=1421 written=1425
+              ->  GroupAggregate  (cost=0.85..38470.93 rows=219780 width=50) (actual time=0.072..272.953 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=694531 read=2250
+                    ->  Nested Loop  (cost=0.85..35174.23 rows=219780 width=42) (actual time=0.066..247.639 rows=219780.00 loops=1)
+                          Buffers: shared hit=694531 read=2250
+                          ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w  (cost=0.42..12890.57 rows=219780 width=12) (actual time=0.022..16.400 rows=219780.00 loops=1)
+                                Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                Heap Fetches: 0
+                                Index Searches: 1
+                                Buffers: shared hit=3 read=2250
+                          ->  Memoize  (cost=0.43..0.73 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=219780)
+                                Cache Key: w.video_id
+                                Cache Mode: logical
+                                Hits: 46148  Misses: 173632  Evictions: 118211  Overflows: 0  Memory Usage: 8193kB
+                                Buffers: shared hit=694528
+                                ->  Index Scan using videos_pkey on videos v  (cost=0.42..0.72 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=173632)
+                                      Index Cond: ((video_id)::text = (w.video_id)::text)
+                                      Index Searches: 173632
+                                      Buffers: shared hit=694528
+Planning:
+  Buffers: shared hit=505 read=42
+Planning Time: 1.045 ms
+Execution Time: 335.940 ms
+=== R11 Partitioned Run 3 ===
+Incremental Sort  (cost=65563.68..83733.94 rows=219780 width=58) (actual time=332.803..344.910 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=683623 read=13164, temp read=1421 written=1425
+  ->  WindowAgg  (cost=65486.20..69881.78 rows=219780 width=58) (actual time=327.878..344.864 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=683617 read=13164, temp read=1421 written=1425
+        ->  Sort  (cost=65486.18..66035.63 rows=219780 width=50) (actual time=327.868..340.718 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=683617 read=13164, temp read=1421 written=1425
+              ->  GroupAggregate  (cost=0.85..38470.93 rows=219780 width=50) (actual time=0.086..283.915 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=683617 read=13164
+                    ->  Nested Loop  (cost=0.85..35174.23 rows=219780 width=42) (actual time=0.077..258.329 rows=219780.00 loops=1)
+                          Buffers: shared hit=683617 read=13164
+                          ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w  (cost=0.42..12890.57 rows=219780 width=12) (actual time=0.023..16.302 rows=219780.00 loops=1)
+                                Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                Heap Fetches: 0
+                                Index Searches: 1
+                                Buffers: shared hit=3 read=2250
+                          ->  Memoize  (cost=0.43..0.73 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=219780)
+                                Cache Key: w.video_id
+                                Cache Mode: logical
+                                Hits: 46148  Misses: 173632  Evictions: 118211  Overflows: 0  Memory Usage: 8193kB
+                                Buffers: shared hit=683614 read=10914
+                                ->  Index Scan using videos_pkey on videos v  (cost=0.42..0.72 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=173632)
+                                      Index Cond: ((video_id)::text = (w.video_id)::text)
+                                      Index Searches: 173632
+                                      Buffers: shared hit=683614 read=10914
+Planning:
+  Buffers: shared hit=516 read=31
+Planning Time: 1.055 ms
+Execution Time: 345.926 ms
+=== R11 Partitioned Run 4 ===
+Incremental Sort  (cost=65563.68..83733.94 rows=219780 width=58) (actual time=321.569..333.826 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=694537 read=2250, temp read=1421 written=1425
+  ->  WindowAgg  (cost=65486.20..69881.78 rows=219780 width=58) (actual time=316.499..333.777 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=694531 read=2250, temp read=1421 written=1425
+        ->  Sort  (cost=65486.18..66035.63 rows=219780 width=50) (actual time=316.487..329.521 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=694531 read=2250, temp read=1421 written=1425
+              ->  GroupAggregate  (cost=0.85..38470.93 rows=219780 width=50) (actual time=0.072..272.374 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=694531 read=2250
+                    ->  Nested Loop  (cost=0.85..35174.23 rows=219780 width=42) (actual time=0.067..247.027 rows=219780.00 loops=1)
+                          Buffers: shared hit=694531 read=2250
+                          ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w  (cost=0.42..12890.57 rows=219780 width=12) (actual time=0.022..16.604 rows=219780.00 loops=1)
+                                Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                Heap Fetches: 0
+                                Index Searches: 1
+                                Buffers: shared hit=3 read=2250
+                          ->  Memoize  (cost=0.43..0.73 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=219780)
+                                Cache Key: w.video_id
+                                Cache Mode: logical
+                                Hits: 46148  Misses: 173632  Evictions: 118211  Overflows: 0  Memory Usage: 8193kB
+                                Buffers: shared hit=694528
+                                ->  Index Scan using videos_pkey on videos v  (cost=0.42..0.72 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=173632)
+                                      Index Cond: ((video_id)::text = (w.video_id)::text)
+                                      Index Searches: 173632
+                                      Buffers: shared hit=694528
+Planning:
+  Buffers: shared hit=509 read=38
+Planning Time: 1.227 ms
+Execution Time: 334.459 ms
+=== R11 Partitioned Run 5 ===
+Incremental Sort  (cost=65563.68..83733.94 rows=219780 width=58) (actual time=329.854..342.135 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=683612 read=13175, temp read=1421 written=1425
+  ->  WindowAgg  (cost=65486.20..69881.78 rows=219780 width=58) (actual time=324.829..342.088 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=683606 read=13175, temp read=1421 written=1425
+        ->  Sort  (cost=65486.18..66035.63 rows=219780 width=50) (actual time=324.818..337.852 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=683606 read=13175, temp read=1421 written=1425
+              ->  GroupAggregate  (cost=0.85..38470.93 rows=219780 width=50) (actual time=0.083..281.320 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=683606 read=13175
+                    ->  Nested Loop  (cost=0.85..35174.23 rows=219780 width=42) (actual time=0.075..255.765 rows=219780.00 loops=1)
+                          Buffers: shared hit=683606 read=13175
+                          ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w  (cost=0.42..12890.57 rows=219780 width=12) (actual time=0.022..16.036 rows=219780.00 loops=1)
+                                Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                Heap Fetches: 0
+                                Index Searches: 1
+                                Buffers: shared hit=3 read=2250
+                          ->  Memoize  (cost=0.43..0.73 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=219780)
+                                Cache Key: w.video_id
+                                Cache Mode: logical
+                                Hits: 46148  Misses: 173632  Evictions: 118211  Overflows: 0  Memory Usage: 8193kB
+                                Buffers: shared hit=683603 read=10925
+                                ->  Index Scan using videos_pkey on videos v  (cost=0.42..0.72 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=173632)
+                                      Index Cond: ((video_id)::text = (w.video_id)::text)
+                                      Index Searches: 173632
+                                      Buffers: shared hit=683603 read=10925
+Planning:
+  Buffers: shared hit=516 read=31
+Planning Time: 1.011 ms
+Execution Time: 342.783 ms
+=== R11 Partitioned Run 6 ===
+Incremental Sort  (cost=65563.68..83733.94 rows=219780 width=58) (actual time=321.442..333.283 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=694537 read=2250, temp read=1421 written=1425
+  ->  WindowAgg  (cost=65486.20..69881.78 rows=219780 width=58) (actual time=316.599..333.235 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=694531 read=2250, temp read=1421 written=1425
+        ->  Sort  (cost=65486.18..66035.63 rows=219780 width=50) (actual time=316.589..329.045 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=694531 read=2250, temp read=1421 written=1425
+              ->  GroupAggregate  (cost=0.85..38470.93 rows=219780 width=50) (actual time=0.098..272.423 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=694531 read=2250
+                    ->  Nested Loop  (cost=0.85..35174.23 rows=219780 width=42) (actual time=0.091..247.061 rows=219780.00 loops=1)
+                          Buffers: shared hit=694531 read=2250
+                          ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w  (cost=0.42..12890.57 rows=219780 width=12) (actual time=0.029..16.655 rows=219780.00 loops=1)
+                                Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                Heap Fetches: 0
+                                Index Searches: 1
+                                Buffers: shared hit=3 read=2250
+                          ->  Memoize  (cost=0.43..0.73 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=219780)
+                                Cache Key: w.video_id
+                                Cache Mode: logical
+                                Hits: 46148  Misses: 173632  Evictions: 118211  Overflows: 0  Memory Usage: 8193kB
+                                Buffers: shared hit=694528
+                                ->  Index Scan using videos_pkey on videos v  (cost=0.42..0.72 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=173632)
+                                      Index Cond: ((video_id)::text = (w.video_id)::text)
+                                      Index Searches: 173632
+                                      Buffers: shared hit=694528
+Planning:
+  Buffers: shared hit=509 read=38
+Planning Time: 1.290 ms
+Execution Time: 334.241 ms
+=== R11 Partitioned Run 7 ===
+Incremental Sort  (cost=65563.68..83733.94 rows=219780 width=58) (actual time=331.820..344.163 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=683340 read=13447, temp read=1421 written=1425
+  ->  WindowAgg  (cost=65486.20..69881.78 rows=219780 width=58) (actual time=326.824..344.124 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=683334 read=13447, temp read=1421 written=1425
+        ->  Sort  (cost=65486.18..66035.63 rows=219780 width=50) (actual time=326.814..340.036 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=683334 read=13447, temp read=1421 written=1425
+              ->  GroupAggregate  (cost=0.85..38470.93 rows=219780 width=50) (actual time=0.083..283.151 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=683334 read=13447
+                    ->  Nested Loop  (cost=0.85..35174.23 rows=219780 width=42) (actual time=0.073..257.761 rows=219780.00 loops=1)
+                          Buffers: shared hit=683334 read=13447
+                          ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w  (cost=0.42..12890.57 rows=219780 width=12) (actual time=0.025..16.143 rows=219780.00 loops=1)
+                                Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                Heap Fetches: 0
+                                Index Searches: 1
+                                Buffers: shared hit=3 read=2250
+                          ->  Memoize  (cost=0.43..0.73 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=219780)
+                                Cache Key: w.video_id
+                                Cache Mode: logical
+                                Hits: 46148  Misses: 173632  Evictions: 118211  Overflows: 0  Memory Usage: 8193kB
+                                Buffers: shared hit=683331 read=11197
+                                ->  Index Scan using videos_pkey on videos v  (cost=0.42..0.72 rows=1 width=42) (actual time=0.001..0.001 rows=1.00 loops=173632)
+                                      Index Cond: ((video_id)::text = (w.video_id)::text)
+                                      Index Searches: 173632
+                                      Buffers: shared hit=683331 read=11197
+Planning:
+  Buffers: shared hit=516 read=31
+Planning Time: 1.074 ms
+Execution Time: 344.800 ms

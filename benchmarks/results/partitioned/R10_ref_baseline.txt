@@ -1,0 +1,224 @@
+=== R10_ref Baseline Run 1 ===
+Limit  (cost=18218.02..18218.07 rows=20 width=44) (actual time=296.141..296.242 rows=20.00 loops=1)
+  Buffers: shared hit=14729 read=13848
+  ->  Sort  (cost=18218.02..18250.65 rows=13053 width=44) (actual time=296.141..296.241 rows=20.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=14729 read=13848
+        ->  HashAggregate  (cost=17740.15..17870.68 rows=13053 width=44) (actual time=294.859..295.578 rows=11957.00 loops=1)
+              Group Key: v.video_id
+              Batches: 1  Memory Usage: 1305kB
+              Buffers: shared hit=14726 read=13848
+              ->  Gather  (cost=14478.44..17674.89 rows=13053 width=36) (actual time=288.311..293.633 rows=12787.00 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=14726 read=13848
+                    ->  Parallel Hash Join  (cost=13478.44..15369.59 rows=7678 width=36) (actual time=287.256..292.608 rows=6393.50 loops=2)
+                          Hash Cond: ((w.video_id)::text = (v.video_id)::text)
+                          Buffers: shared hit=14726 read=13848
+                          ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..1810.98 rows=30705 width=12) (actual time=0.312..2.588 rows=25641.00 loops=2)
+                                Index Cond: (started_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone)
+                                Index Searches: 1
+                                Buffers: shared hit=164 read=621
+                          ->  Parallel Hash  (cost=12696.55..12696.55 rows=62517 width=36) (actual time=286.807..286.807 rows=74905.50 loops=2)
+                                Buckets: 262144  Batches: 1  Memory Usage: 12640kB
+                                Buffers: shared hit=14562 read=13227
+                                ->  Parallel Index Scan using videos_short_idx on videos v  (cost=0.42..12696.55 rows=62517 width=36) (actual time=0.309..278.938 rows=74905.50 loops=2)
+                                      Index Searches: 1
+                                      Buffers: shared hit=14562 read=13227
+Planning:
+  Buffers: shared hit=366 read=1
+Planning Time: 0.652 ms
+Execution Time: 296.293 ms
+=== R10_ref Baseline Run 2 ===
+Limit  (cost=18218.02..18218.07 rows=20 width=44) (actual time=24.773..24.861 rows=20.00 loops=1)
+  Buffers: shared hit=28824
+  ->  Sort  (cost=18218.02..18250.65 rows=13053 width=44) (actual time=24.772..24.860 rows=20.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=28824
+        ->  HashAggregate  (cost=17740.15..17870.68 rows=13053 width=44) (actual time=23.463..24.197 rows=11957.00 loops=1)
+              Group Key: v.video_id
+              Batches: 1  Memory Usage: 1305kB
+              Buffers: shared hit=28821
+              ->  Gather  (cost=14478.44..17674.89 rows=13053 width=36) (actual time=18.277..22.248 rows=12787.00 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=28821
+                    ->  Parallel Hash Join  (cost=13478.44..15369.59 rows=7678 width=36) (actual time=17.385..21.423 rows=6393.50 loops=2)
+                          Hash Cond: ((w.video_id)::text = (v.video_id)::text)
+                          Buffers: shared hit=28821
+                          ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..1810.98 rows=30705 width=12) (actual time=0.012..1.292 rows=25641.00 loops=2)
+                                Index Cond: (started_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone)
+                                Index Searches: 1
+                                Buffers: shared hit=785
+                          ->  Parallel Hash  (cost=12696.55..12696.55 rows=62517 width=36) (actual time=17.271..17.271 rows=74905.50 loops=2)
+                                Buckets: 262144  Batches: 1  Memory Usage: 12640kB
+                                Buffers: shared hit=28036
+                                ->  Parallel Index Scan using videos_short_idx on videos v  (cost=0.42..12696.55 rows=62517 width=36) (actual time=0.005..12.280 rows=74905.50 loops=2)
+                                      Index Searches: 1
+                                      Buffers: shared hit=28036
+Planning:
+  Buffers: shared hit=367
+Planning Time: 0.620 ms
+Execution Time: 24.906 ms
+=== R10_ref Baseline Run 3 ===
+Limit  (cost=18218.02..18218.07 rows=20 width=44) (actual time=25.610..25.697 rows=20.00 loops=1)
+  Buffers: shared hit=28815
+  ->  Sort  (cost=18218.02..18250.65 rows=13053 width=44) (actual time=25.610..25.696 rows=20.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=28815
+        ->  HashAggregate  (cost=17740.15..17870.68 rows=13053 width=44) (actual time=24.314..24.996 rows=11957.00 loops=1)
+              Group Key: v.video_id
+              Batches: 1  Memory Usage: 1305kB
+              Buffers: shared hit=28812
+              ->  Gather  (cost=14478.44..17674.89 rows=13053 width=36) (actual time=18.986..23.060 rows=12787.00 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=28812
+                    ->  Parallel Hash Join  (cost=13478.44..15369.59 rows=7678 width=36) (actual time=17.929..22.074 rows=6393.50 loops=2)
+                          Hash Cond: ((w.video_id)::text = (v.video_id)::text)
+                          Buffers: shared hit=28812
+                          ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..1810.98 rows=30705 width=12) (actual time=0.012..1.304 rows=25641.00 loops=2)
+                                Index Cond: (started_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone)
+                                Index Searches: 1
+                                Buffers: shared hit=778
+                          ->  Parallel Hash  (cost=12696.55..12696.55 rows=62517 width=36) (actual time=17.818..17.818 rows=74905.50 loops=2)
+                                Buckets: 262144  Batches: 1  Memory Usage: 12640kB
+                                Buffers: shared hit=28034
+                                ->  Parallel Index Scan using videos_short_idx on videos v  (cost=0.42..12696.55 rows=62517 width=36) (actual time=0.006..12.561 rows=74905.50 loops=2)
+                                      Index Searches: 1
+                                      Buffers: shared hit=28034
+Planning:
+  Buffers: shared hit=367
+Planning Time: 0.618 ms
+Execution Time: 25.747 ms
+=== R10_ref Baseline Run 4 ===
+Limit  (cost=18218.02..18218.07 rows=20 width=44) (actual time=24.999..25.088 rows=20.00 loops=1)
+  Buffers: shared hit=28809
+  ->  Sort  (cost=18218.02..18250.65 rows=13053 width=44) (actual time=24.998..25.087 rows=20.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=28809
+        ->  HashAggregate  (cost=17740.15..17870.68 rows=13053 width=44) (actual time=23.511..24.267 rows=11957.00 loops=1)
+              Group Key: v.video_id
+              Batches: 1  Memory Usage: 1305kB
+              Buffers: shared hit=28806
+              ->  Gather  (cost=14478.44..17674.89 rows=13053 width=36) (actual time=18.161..22.136 rows=12787.00 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=28806
+                    ->  Parallel Hash Join  (cost=13478.44..15369.59 rows=7678 width=36) (actual time=17.327..21.423 rows=6393.50 loops=2)
+                          Hash Cond: ((w.video_id)::text = (v.video_id)::text)
+                          Buffers: shared hit=28806
+                          ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..1810.98 rows=30705 width=12) (actual time=0.010..1.320 rows=25641.00 loops=2)
+                                Index Cond: (started_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone)
+                                Index Searches: 1
+                                Buffers: shared hit=773
+                          ->  Parallel Hash  (cost=12696.55..12696.55 rows=62517 width=36) (actual time=17.222..17.222 rows=74905.50 loops=2)
+                                Buckets: 262144  Batches: 1  Memory Usage: 12640kB
+                                Buffers: shared hit=28033
+                                ->  Parallel Index Scan using videos_short_idx on videos v  (cost=0.42..12696.55 rows=62517 width=36) (actual time=0.005..12.165 rows=74905.50 loops=2)
+                                      Index Searches: 1
+                                      Buffers: shared hit=28033
+Planning:
+  Buffers: shared hit=367
+Planning Time: 0.575 ms
+Execution Time: 25.130 ms
+=== R10_ref Baseline Run 5 ===
+Limit  (cost=18218.02..18218.07 rows=20 width=44) (actual time=25.271..25.356 rows=20.00 loops=1)
+  Buffers: shared hit=28824
+  ->  Sort  (cost=18218.02..18250.65 rows=13053 width=44) (actual time=25.270..25.355 rows=20.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=28824
+        ->  HashAggregate  (cost=17740.15..17870.68 rows=13053 width=44) (actual time=23.930..24.628 rows=11957.00 loops=1)
+              Group Key: v.video_id
+              Batches: 1  Memory Usage: 1305kB
+              Buffers: shared hit=28821
+              ->  Gather  (cost=14478.44..17674.89 rows=13053 width=36) (actual time=18.815..22.718 rows=12787.00 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=28821
+                    ->  Parallel Hash Join  (cost=13478.44..15369.59 rows=7678 width=36) (actual time=17.924..21.907 rows=6393.50 loops=2)
+                          Hash Cond: ((w.video_id)::text = (v.video_id)::text)
+                          Buffers: shared hit=28821
+                          ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..1810.98 rows=30705 width=12) (actual time=0.011..1.286 rows=25641.00 loops=2)
+                                Index Cond: (started_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone)
+                                Index Searches: 1
+                                Buffers: shared hit=783
+                          ->  Parallel Hash  (cost=12696.55..12696.55 rows=62517 width=36) (actual time=17.800..17.800 rows=74905.50 loops=2)
+                                Buckets: 262144  Batches: 1  Memory Usage: 12608kB
+                                Buffers: shared hit=28038
+                                ->  Parallel Index Scan using videos_short_idx on videos v  (cost=0.42..12696.55 rows=62517 width=36) (actual time=0.005..12.574 rows=74905.50 loops=2)
+                                      Index Searches: 1
+                                      Buffers: shared hit=28038
+Planning:
+  Buffers: shared hit=367
+Planning Time: 0.627 ms
+Execution Time: 25.401 ms
+=== R10_ref Baseline Run 6 ===
+Limit  (cost=18218.02..18218.07 rows=20 width=44) (actual time=25.219..25.315 rows=20.00 loops=1)
+  Buffers: shared hit=28818
+  ->  Sort  (cost=18218.02..18250.65 rows=13053 width=44) (actual time=25.218..25.314 rows=20.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=28818
+        ->  HashAggregate  (cost=17740.15..17870.68 rows=13053 width=44) (actual time=23.859..24.657 rows=11957.00 loops=1)
+              Group Key: v.video_id
+              Batches: 1  Memory Usage: 1305kB
+              Buffers: shared hit=28815
+              ->  Gather  (cost=14478.44..17674.89 rows=13053 width=36) (actual time=18.476..22.609 rows=12787.00 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=28815
+                    ->  Parallel Hash Join  (cost=13478.44..15369.59 rows=7678 width=36) (actual time=17.636..21.792 rows=6393.50 loops=2)
+                          Hash Cond: ((w.video_id)::text = (v.video_id)::text)
+                          Buffers: shared hit=28815
+                          ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..1810.98 rows=30705 width=12) (actual time=0.014..1.266 rows=25641.00 loops=2)
+                                Index Cond: (started_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone)
+                                Index Searches: 1
+                                Buffers: shared hit=783
+                          ->  Parallel Hash  (cost=12696.55..12696.55 rows=62517 width=36) (actual time=17.529..17.529 rows=74905.50 loops=2)
+                                Buckets: 262144  Batches: 1  Memory Usage: 12640kB
+                                Buffers: shared hit=28032
+                                ->  Parallel Index Scan using videos_short_idx on videos v  (cost=0.42..12696.55 rows=62517 width=36) (actual time=0.005..12.371 rows=74905.50 loops=2)
+                                      Index Searches: 1
+                                      Buffers: shared hit=28032
+Planning:
+  Buffers: shared hit=367
+Planning Time: 0.575 ms
+Execution Time: 25.359 ms
+=== R10_ref Baseline Run 7 ===
+Limit  (cost=18218.02..18218.07 rows=20 width=44) (actual time=25.420..25.505 rows=20.00 loops=1)
+  Buffers: shared hit=28820
+  ->  Sort  (cost=18218.02..18250.65 rows=13053 width=44) (actual time=25.420..25.504 rows=20.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=28820
+        ->  HashAggregate  (cost=17740.15..17870.68 rows=13053 width=44) (actual time=24.062..24.738 rows=11957.00 loops=1)
+              Group Key: v.video_id
+              Batches: 1  Memory Usage: 1305kB
+              Buffers: shared hit=28817
+              ->  Gather  (cost=14478.44..17674.89 rows=13053 width=36) (actual time=18.767..22.773 rows=12787.00 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=28817
+                    ->  Parallel Hash Join  (cost=13478.44..15369.59 rows=7678 width=36) (actual time=17.878..21.955 rows=6393.50 loops=2)
+                          Hash Cond: ((w.video_id)::text = (v.video_id)::text)
+                          Buffers: shared hit=28817
+                          ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..1810.98 rows=30705 width=12) (actual time=0.013..1.296 rows=25641.00 loops=2)
+                                Index Cond: (started_at >= '2026-06-24 00:00:00+05:30'::timestamp with time zone)
+                                Index Searches: 1
+                                Buffers: shared hit=781
+                          ->  Parallel Hash  (cost=12696.55..12696.55 rows=62517 width=36) (actual time=17.767..17.767 rows=74905.50 loops=2)
+                                Buckets: 262144  Batches: 1  Memory Usage: 12640kB
+                                Buffers: shared hit=28036
+                                ->  Parallel Index Scan using videos_short_idx on videos v  (cost=0.42..12696.55 rows=62517 width=36) (actual time=0.005..12.524 rows=74905.50 loops=2)
+                                      Index Searches: 1
+                                      Buffers: shared hit=28036
+Planning:
+  Buffers: shared hit=367
+Planning Time: 0.578 ms
+Execution Time: 25.546 ms
