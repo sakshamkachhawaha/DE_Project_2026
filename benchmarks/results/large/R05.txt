@@ -1,0 +1,54 @@
+=== R05 run 1 ===
+Limit  (cost=0.85..59.19 rows=6 width=48) (actual time=0.640..1.387 rows=6.00 loops=1)
+  Buffers: shared hit=17 read=12
+  ->  Nested Loop  (cost=0.85..59.19 rows=6 width=48) (actual time=0.639..1.386 rows=6.00 loops=1)
+        Buffers: shared hit=17 read=12
+        ->  Index Only Scan using watch_events_user_started_idx on watch_events w  (cost=0.43..8.54 rows=6 width=24) (actual time=0.292..0.293 rows=6.00 loops=1)
+              Index Cond: (user_id = 1042)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=2 read=3
+        ->  Index Scan using videos_pkey on videos v  (cost=0.42..8.44 rows=1 width=36) (actual time=0.182..0.182 rows=1.00 loops=6)
+              Index Cond: ((video_id)::text = (w.video_id)::text)
+              Index Searches: 6
+              Buffers: shared hit=15 read=9
+Planning:
+  Buffers: shared hit=410 read=14 dirtied=1
+Planning Time: 2.360 ms
+Execution Time: 1.407 ms
+=== R05 run 2 ===
+Limit  (cost=0.85..59.19 rows=6 width=48) (actual time=0.015..0.039 rows=6.00 loops=1)
+  Buffers: shared hit=29
+  ->  Nested Loop  (cost=0.85..59.19 rows=6 width=48) (actual time=0.014..0.038 rows=6.00 loops=1)
+        Buffers: shared hit=29
+        ->  Index Only Scan using watch_events_user_started_idx on watch_events w  (cost=0.43..8.54 rows=6 width=24) (actual time=0.006..0.007 rows=6.00 loops=1)
+              Index Cond: (user_id = 1042)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=5
+        ->  Index Scan using videos_pkey on videos v  (cost=0.42..8.44 rows=1 width=36) (actual time=0.005..0.005 rows=1.00 loops=6)
+              Index Cond: ((video_id)::text = (w.video_id)::text)
+              Index Searches: 6
+              Buffers: shared hit=24
+Planning:
+  Buffers: shared hit=424
+Planning Time: 0.663 ms
+Execution Time: 0.055 ms
+=== R05 run 3 ===
+Limit  (cost=0.85..59.19 rows=6 width=48) (actual time=0.016..0.044 rows=6.00 loops=1)
+  Buffers: shared hit=29
+  ->  Nested Loop  (cost=0.85..59.19 rows=6 width=48) (actual time=0.016..0.043 rows=6.00 loops=1)
+        Buffers: shared hit=29
+        ->  Index Only Scan using watch_events_user_started_idx on watch_events w  (cost=0.43..8.54 rows=6 width=24) (actual time=0.008..0.008 rows=6.00 loops=1)
+              Index Cond: (user_id = 1042)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=5
+        ->  Index Scan using videos_pkey on videos v  (cost=0.42..8.44 rows=1 width=36) (actual time=0.006..0.006 rows=1.00 loops=6)
+              Index Cond: ((video_id)::text = (w.video_id)::text)
+              Index Searches: 6
+              Buffers: shared hit=24
+Planning:
+  Buffers: shared hit=424
+Planning Time: 0.738 ms
+Execution Time: 0.060 ms

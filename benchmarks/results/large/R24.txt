@@ -1,0 +1,51 @@
+=== R24 run 1 ===
+GroupAggregate  (cost=11.74..13.06 rows=66 width=16) (actual time=0.353..0.381 rows=42.00 loops=1)
+  Group Key: (date_trunc('month'::text, subscribed_at))
+  Buffers: shared hit=3 read=6
+  ->  Sort  (cost=11.74..11.91 rows=66 width=8) (actual time=0.348..0.359 rows=531.00 loops=1)
+        Sort Key: (date_trunc('month'::text, subscribed_at))
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=3 read=6
+        ->  Index Only Scan using subscriptions_channel_subscribed_idx on subscriptions  (cost=0.43..9.75 rows=66 width=8) (actual time=0.268..0.326 rows=531.00 loops=1)
+              Index Cond: (channel_id = 217)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared read=6
+Planning:
+  Buffers: shared hit=117 read=4
+Planning Time: 0.296 ms
+Execution Time: 0.414 ms
+=== R24 run 2 ===
+GroupAggregate  (cost=11.74..13.06 rows=66 width=16) (actual time=0.122..0.149 rows=42.00 loops=1)
+  Group Key: (date_trunc('month'::text, subscribed_at))
+  Buffers: shared hit=9
+  ->  Sort  (cost=11.74..11.91 rows=66 width=8) (actual time=0.118..0.129 rows=531.00 loops=1)
+        Sort Key: (date_trunc('month'::text, subscribed_at))
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=9
+        ->  Index Only Scan using subscriptions_channel_subscribed_idx on subscriptions  (cost=0.43..9.75 rows=66 width=8) (actual time=0.042..0.096 rows=531.00 loops=1)
+              Index Cond: (channel_id = 217)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=6
+Planning:
+  Buffers: shared hit=121
+Planning Time: 0.238 ms
+Execution Time: 0.183 ms
+=== R24 run 3 ===
+GroupAggregate  (cost=11.74..13.06 rows=66 width=16) (actual time=0.113..0.140 rows=42.00 loops=1)
+  Group Key: (date_trunc('month'::text, subscribed_at))
+  Buffers: shared hit=9
+  ->  Sort  (cost=11.74..11.91 rows=66 width=8) (actual time=0.110..0.121 rows=531.00 loops=1)
+        Sort Key: (date_trunc('month'::text, subscribed_at))
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=9
+        ->  Index Only Scan using subscriptions_channel_subscribed_idx on subscriptions  (cost=0.43..9.75 rows=66 width=8) (actual time=0.041..0.089 rows=531.00 loops=1)
+              Index Cond: (channel_id = 217)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=6
+Planning:
+  Buffers: shared hit=121
+Planning Time: 0.225 ms
+Execution Time: 0.172 ms
