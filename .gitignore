@@ -1,3 +1,9 @@
 seed_data/
 large_data/
 .DS_Store
+
+# 247 MB, downloaded from the faculty release page
+large_data.zip
+# working files from the re-measurement
+cp4_generated.md
+cp4_facts.json

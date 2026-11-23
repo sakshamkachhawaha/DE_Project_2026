@@ -2,7 +2,7 @@
 # =====================================================================
 # CP4 Stage 6C.2.1: Dedicated Partition Benchmark Comparison Runner
 # Project: Team T0046 — YouTube Video Sharing Database
-# Target Database: youtube_large (PostgreSQL 18.6)
+# Target Database: youtube_large (PostgreSQL 18.6 — see the engine note in docs/05 section 1.2)
 #
 # Baseline:     youtube.watch_events (4,000,000 rows, monolithic heap)
 # Experimental: youtube_part.watch_events_partitioned (4,000,000 rows, 18 partitions)

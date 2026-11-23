@@ -1,30 +1,27 @@
 === R23 run 1 ===
-Limit  (cost=1712.29..1713.72 rows=25 width=52) (actual time=10.364..10.391 rows=25.00 loops=1)
-  Buffers: shared read=465
-  ->  Index Scan using comments_created_idx on comments  (cost=0.43..68475.12 rows=1200000 width=52) (actual time=0.408..9.830 rows=30025.00 loops=1)
-        Index Searches: 1
-        Buffers: shared read=465
+Limit  (cost=1710.79..1712.22 rows=25 width=52) (actual time=10.418..10.453 rows=25 loops=1)
+  Buffers: shared read=466
+  ->  Index Scan using comments_created_idx on comments  (cost=0.43..68414.99 rows=1200000 width=52) (actual time=0.290..9.957 rows=30025 loops=1)
+        Buffers: shared read=466
 Planning:
-  Buffers: shared hit=137 read=4
-Planning Time: 0.348 ms
-Execution Time: 10.405 ms
+  Buffers: shared hit=127 read=7
+Planning Time: 0.815 ms
+Execution Time: 10.465 ms
 === R23 run 2 ===
-Limit  (cost=1712.29..1713.72 rows=25 width=52) (actual time=2.996..3.001 rows=25.00 loops=1)
-  Buffers: shared hit=465
-  ->  Index Scan using comments_created_idx on comments  (cost=0.43..68475.12 rows=1200000 width=52) (actual time=0.008..2.471 rows=30025.00 loops=1)
-        Index Searches: 1
-        Buffers: shared hit=465
+Limit  (cost=1710.79..1712.22 rows=25 width=52) (actual time=3.103..3.108 rows=25 loops=1)
+  Buffers: shared hit=466
+  ->  Index Scan using comments_created_idx on comments  (cost=0.43..68414.99 rows=1200000 width=52) (actual time=0.010..2.606 rows=30025 loops=1)
+        Buffers: shared hit=466
 Planning:
-  Buffers: shared hit=141
-Planning Time: 0.245 ms
-Execution Time: 3.014 ms
+  Buffers: shared hit=134
+Planning Time: 0.222 ms
+Execution Time: 3.120 ms
 === R23 run 3 ===
-Limit  (cost=1712.29..1713.72 rows=25 width=52) (actual time=3.086..3.091 rows=25.00 loops=1)
-  Buffers: shared hit=465
-  ->  Index Scan using comments_created_idx on comments  (cost=0.43..68475.12 rows=1200000 width=52) (actual time=0.009..2.553 rows=30025.00 loops=1)
-        Index Searches: 1
-        Buffers: shared hit=465
+Limit  (cost=1710.79..1712.22 rows=25 width=52) (actual time=3.037..3.044 rows=25 loops=1)
+  Buffers: shared hit=466
+  ->  Index Scan using comments_created_idx on comments  (cost=0.43..68414.99 rows=1200000 width=52) (actual time=0.014..2.521 rows=30025 loops=1)
+        Buffers: shared hit=466
 Planning:
-  Buffers: shared hit=141
-Planning Time: 0.253 ms
-Execution Time: 3.106 ms
+  Buffers: shared hit=134
+Planning Time: 0.314 ms
+Execution Time: 3.061 ms

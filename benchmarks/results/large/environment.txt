@@ -1,0 +1,11 @@
+Re-measurement recorded by reproduce_large.sh
+date                : 2026-11-23 17:22:24 UTC
+psql client         : psql (PostgreSQL) 15.20 (Homebrew)
+server version      : 15.20 (Homebrew)
+server version_num  : 150020
+machine             : arm64 / Apple M4
+database            : youtube_large
+rows loaded         : 12828190
+db size             : 2201 MB
+db size bytes       : 2308046183
+protocol            : ./benchmarks/run_benchmark.sh youtube_large large 3 sql/06_optimized_queries.sql
