@@ -6,7 +6,7 @@
 **Phase 5 Owner:** Barnak Das (Phase 5 Lead)  
 **Contributing Members:** Saksham Paliwal, Arnav Bansal, Saksham Kachhawaha  
 
-**Target Database:** `youtube_large` (PostgreSQL 15.18 Postgres.app on macOS `aarch64-apple-darwin23.6.0`, 64-bit)  
+**Target Database:** `youtube_large` (PostgreSQL 15.20 Homebrew on macOS `aarch64-apple-darwin23.6.0`, 64-bit; the Phase 3-4 baseline ran on 15.18, same 15 line)  
 **Session Configuration:** `shared_buffers = 128MB`, `work_mem = 4MB`, `maintenance_work_mem = 64MB`, `max_parallel_workers_per_gather = 2`, `session timezone = Asia/Kolkata (+05:30)`  
 **Client Interface:** `psql` 17.11 (Homebrew)  
 **Benchmark Machine:** Apple MacBook Pro, Apple M4 SoC, 16 GB Unified Memory  
@@ -63,7 +63,7 @@ The institutional dataset expands production volume by approximately $20\times$ 
 All measurements were conducted locally on the official team benchmark hardware:
 - **Processor & Architecture:** Apple M4 SoC (8-core CPU, 10-core GPU, ARM64 `aarch64-apple-darwin23.6.0`).
 - **Memory & Storage:** 16 GB Unified Memory; high-speed Apple APFS solid-state NVMe storage.
-- **Engine:** PostgreSQL 15.20 (Homebrew). Phase 3 and Phase 4 ran on the same major version.
+- **Engine:** PostgreSQL 15.20 (Homebrew). The Phase 3 and Phase 4 baseline ran on 15.18 (Postgres.app), which is what `team.json` records. The two differ by patch release inside the same 15 line, so the seed and large timings are measured by the same query planner family.
 - **Database:** `youtube_large`, built with `sql/01_schema.sql` and loaded by `sql/02_load_large_data.sql` from the faculty `large_data.zip`.
 - **Where the data came from:** the official Phase 5 dataset for T0046 (247 MB archive, 845 MB of CSV, 12,828,190 rows across the same ten tables as `seed_data.zip`). We counted the rows again after loading and they match the published totals.
 - **How the timings were taken:** `VACUUM (ANALYZE)` on the whole database, one warm-up run that is thrown away, then 3 measured runs per query. The figure in the table is the mean of those three, read from the server's `Execution Time` in `EXPLAIN (ANALYZE, BUFFERS)`. Phase 3 and Phase 4 used the same 3-run method.
@@ -195,7 +195,7 @@ Because the sort required $11,352\text{ kB}$ of working memory, PostgreSQL spill
 
 ### 3.2 Buffer Cache Sizing and Cold-Run Latency Spikes
 
-With `shared_buffers = 128MB` and a combined database physical size of $3.33\text{ GB}$, the database operates under a partial-cache model. While warm runs execute rapidly, cold runs incur additional page access latency:
+With `shared_buffers = 128MB` and a database of $2.2\text{ GB}$ (`environment.txt` records 2,201 MB), the database operates under a partial-cache model. While warm runs execute rapidly, cold runs incur additional page access latency:
 - [`R07`](../benchmarks/results/large/R07.txt) Run 1 (Cold): **$16.675\text{ ms}$** vs Run 2 (Warm): **$0.449\text{ ms}$**
 - [`R14`](../benchmarks/results/large/R14.txt) Run 1 (Cold): **$13.826\text{ ms}$** vs Run 2 (Warm): **$0.647\text{ ms}$**
 - [`R17`](../benchmarks/results/large/R17.txt) Run 1 (Cold): **$505.750\text{ ms}$** vs Run 2 (Warm): **$155.187\text{ ms}$**
