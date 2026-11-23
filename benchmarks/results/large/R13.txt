@@ -1,0 +1,102 @@
+=== R13 run 1 ===
+Hash Anti Join  (cost=119.13..372.77 rows=66 width=12) (actual time=1.171..5.310 rows=531.00 loops=1)
+  Hash Cond: (s.user_id = w.user_id)
+  Buffers: shared hit=377 read=531
+  ->  Bitmap Heap Scan on subscriptions s  (cost=4.94..257.74 rows=66 width=12) (actual time=0.575..4.624 rows=531.00 loops=1)
+        Recheck Cond: (channel_id = 217)
+        Heap Blocks: exact=523
+        Buffers: shared read=528
+        ->  Bitmap Index Scan on subscriptions_channel_subscribed_idx  (cost=0.00..4.92 rows=66 width=0) (actual time=0.506..0.506 rows=531.00 loops=1)
+              Index Cond: (channel_id = 217)
+              Index Searches: 1
+              Buffers: shared read=5
+  ->  Hash  (cost=113.19..113.19 rows=80 width=4) (actual time=0.592..0.592 rows=314.00 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 20kB
+        Buffers: shared hit=377 read=3
+        ->  Nested Loop  (cost=5.07..113.19 rows=80 width=4) (actual time=0.226..0.574 rows=410.00 loops=1)
+              Buffers: shared hit=377 read=3
+              ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=12) (actual time=0.217..0.270 rows=60.00 loops=1)
+                    Recheck Cond: (channel_id = 217)
+                    Heap Blocks: exact=60
+                    Buffers: shared hit=60 read=3
+                    ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.209..0.209 rows=60.00 loops=1)
+                          Index Cond: (channel_id = 217)
+                          Index Searches: 1
+                          Buffers: shared read=3
+              ->  Index Only Scan using watch_events_video_started_idx on watch_events w  (cost=0.56..5.05 rows=9 width=16) (actual time=0.004..0.005 rows=6.83 loops=60)
+                    Index Cond: (video_id = (v.video_id)::text)
+                    Heap Fetches: 0
+                    Index Searches: 60
+                    Buffers: shared hit=317
+Planning:
+  Buffers: shared hit=548 read=14
+Planning Time: 2.281 ms
+Execution Time: 5.368 ms
+=== R13 run 2 ===
+Hash Anti Join  (cost=119.13..372.77 rows=66 width=12) (actual time=0.462..1.081 rows=531.00 loops=1)
+  Hash Cond: (s.user_id = w.user_id)
+  Buffers: shared hit=908
+  ->  Bitmap Heap Scan on subscriptions s  (cost=4.94..257.74 rows=66 width=12) (actual time=0.072..0.646 rows=531.00 loops=1)
+        Recheck Cond: (channel_id = 217)
+        Heap Blocks: exact=523
+        Buffers: shared hit=528
+        ->  Bitmap Index Scan on subscriptions_channel_subscribed_idx  (cost=0.00..4.92 rows=66 width=0) (actual time=0.042..0.042 rows=531.00 loops=1)
+              Index Cond: (channel_id = 217)
+              Index Searches: 1
+              Buffers: shared hit=5
+  ->  Hash  (cost=113.19..113.19 rows=80 width=4) (actual time=0.387..0.387 rows=314.00 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 20kB
+        Buffers: shared hit=380
+        ->  Nested Loop  (cost=5.07..113.19 rows=80 width=4) (actual time=0.022..0.372 rows=410.00 loops=1)
+              Buffers: shared hit=380
+              ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=12) (actual time=0.014..0.069 rows=60.00 loops=1)
+                    Recheck Cond: (channel_id = 217)
+                    Heap Blocks: exact=60
+                    Buffers: shared hit=63
+                    ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.007..0.007 rows=60.00 loops=1)
+                          Index Cond: (channel_id = 217)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+              ->  Index Only Scan using watch_events_video_started_idx on watch_events w  (cost=0.56..5.05 rows=9 width=16) (actual time=0.004..0.005 rows=6.83 loops=60)
+                    Index Cond: (video_id = (v.video_id)::text)
+                    Heap Fetches: 0
+                    Index Searches: 60
+                    Buffers: shared hit=317
+Planning:
+  Buffers: shared hit=562
+Planning Time: 0.986 ms
+Execution Time: 1.122 ms
+=== R13 run 3 ===
+Hash Anti Join  (cost=119.13..372.77 rows=66 width=12) (actual time=0.455..0.940 rows=531.00 loops=1)
+  Hash Cond: (s.user_id = w.user_id)
+  Buffers: shared hit=908
+  ->  Bitmap Heap Scan on subscriptions s  (cost=4.94..257.74 rows=66 width=12) (actual time=0.074..0.519 rows=531.00 loops=1)
+        Recheck Cond: (channel_id = 217)
+        Heap Blocks: exact=523
+        Buffers: shared hit=528
+        ->  Bitmap Index Scan on subscriptions_channel_subscribed_idx  (cost=0.00..4.92 rows=66 width=0) (actual time=0.044..0.044 rows=531.00 loops=1)
+              Index Cond: (channel_id = 217)
+              Index Searches: 1
+              Buffers: shared hit=5
+  ->  Hash  (cost=113.19..113.19 rows=80 width=4) (actual time=0.379..0.379 rows=314.00 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 20kB
+        Buffers: shared hit=380
+        ->  Nested Loop  (cost=5.07..113.19 rows=80 width=4) (actual time=0.022..0.364 rows=410.00 loops=1)
+              Buffers: shared hit=380
+              ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=12) (actual time=0.013..0.063 rows=60.00 loops=1)
+                    Recheck Cond: (channel_id = 217)
+                    Heap Blocks: exact=60
+                    Buffers: shared hit=63
+                    ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.007..0.007 rows=60.00 loops=1)
+                          Index Cond: (channel_id = 217)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+              ->  Index Only Scan using watch_events_video_started_idx on watch_events w  (cost=0.56..5.05 rows=9 width=16) (actual time=0.004..0.005 rows=6.83 loops=60)
+                    Index Cond: (video_id = (v.video_id)::text)
+                    Heap Fetches: 0
+                    Index Searches: 60
+                    Buffers: shared hit=317
+Planning:
+  Buffers: shared hit=562
+Planning Time: 0.885 ms
+Execution Time: 0.979 ms

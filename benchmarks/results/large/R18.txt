@@ -1,0 +1,45 @@
+=== R18 run 1 ===
+Nested Loop Semi Join  (cost=0.71..13252.24 rows=6030 width=40) (actual time=0.117..51.492 rows=7621.00 loops=1)
+  Buffers: shared hit=26998 read=9657
+  ->  Index Scan using videos_kids_idx on videos v  (cost=0.29..3967.64 rows=9900 width=40) (actual time=0.113..18.151 rows=9764.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=458 read=6904
+  ->  Index Only Scan using comments_video_idx on comments c  (cost=0.43..1.64 rows=3 width=12) (actual time=0.003..0.003 rows=0.78 loops=9764)
+        Index Cond: (video_id = (v.video_id)::text)
+        Heap Fetches: 0
+        Index Searches: 9764
+        Buffers: shared hit=26540 read=2753
+Planning:
+  Buffers: shared hit=315 read=56
+Planning Time: 1.264 ms
+Execution Time: 51.649 ms
+=== R18 run 2 ===
+Nested Loop Semi Join  (cost=0.71..13252.24 rows=6030 width=40) (actual time=0.011..27.682 rows=7621.00 loops=1)
+  Buffers: shared hit=36655
+  ->  Index Scan using videos_kids_idx on videos v  (cost=0.29..3967.64 rows=9900 width=40) (actual time=0.008..9.260 rows=9764.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=7362
+  ->  Index Only Scan using comments_video_idx on comments c  (cost=0.43..1.64 rows=3 width=12) (actual time=0.002..0.002 rows=0.78 loops=9764)
+        Index Cond: (video_id = (v.video_id)::text)
+        Heap Fetches: 0
+        Index Searches: 9764
+        Buffers: shared hit=29293
+Planning:
+  Buffers: shared hit=371
+Planning Time: 0.665 ms
+Execution Time: 27.885 ms
+=== R18 run 3 ===
+Nested Loop Semi Join  (cost=0.71..13252.24 rows=6030 width=40) (actual time=0.008..17.614 rows=7621.00 loops=1)
+  Buffers: shared hit=36655
+  ->  Index Scan using videos_kids_idx on videos v  (cost=0.29..3967.64 rows=9900 width=40) (actual time=0.005..5.609 rows=9764.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=7362
+  ->  Index Only Scan using comments_video_idx on comments c  (cost=0.43..1.64 rows=3 width=12) (actual time=0.001..0.001 rows=0.78 loops=9764)
+        Index Cond: (video_id = (v.video_id)::text)
+        Heap Fetches: 0
+        Index Searches: 9764
+        Buffers: shared hit=29293
+Planning:
+  Buffers: shared hit=371
+Planning Time: 0.572 ms
+Execution Time: 17.759 ms

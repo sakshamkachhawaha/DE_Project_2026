@@ -1,0 +1,93 @@
+=== R03 run 1 ===
+Limit  (cost=73.29..73.37 rows=30 width=56) (actual time=1.773..1.775 rows=30.00 loops=1)
+  Buffers: shared hit=18 read=56
+  ->  Sort  (cost=73.29..73.64 rows=138 width=56) (actual time=1.772..1.773 rows=30.00 loops=1)
+        Sort Key: v.published_at DESC
+        Sort Method: quicksort  Memory: 30kB
+        Buffers: shared hit=18 read=56
+        ->  Nested Loop  (cost=1.15..69.22 rows=138 width=56) (actual time=1.198..1.758 rows=44.00 loops=1)
+              Join Filter: (s.channel_id = v.channel_id)
+              Buffers: shared hit=15 read=56
+              ->  Nested Loop  (cost=0.72..58.38 rows=6 width=20) (actual time=1.050..1.305 rows=3.00 loops=1)
+                    Buffers: shared hit=7 read=6
+                    ->  Index Only Scan using subscriptions_pkey on subscriptions s  (cost=0.43..8.54 rows=6 width=4) (actual time=0.320..0.321 rows=3.00 loops=1)
+                          Index Cond: (user_id = 1042)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=1 read=3
+                    ->  Index Scan using channels_pkey on channels c  (cost=0.29..8.31 rows=1 width=16) (actual time=0.327..0.327 rows=1.00 loops=3)
+                          Index Cond: (channel_id = s.channel_id)
+                          Index Searches: 3
+                          Buffers: shared hit=6 read=3
+              ->  Index Scan using videos_channel_uploaded_idx on videos v  (cost=0.42..1.67 rows=11 width=48) (actual time=0.085..0.149 rows=14.67 loops=3)
+                    Index Cond: (channel_id = c.channel_id)
+                    Filter: (visibility = 'PUBLIC'::text)
+                    Rows Removed by Filter: 2
+                    Index Searches: 3
+                    Buffers: shared hit=8 read=50
+Planning:
+  Buffers: shared hit=432 read=5
+Planning Time: 1.774 ms
+Execution Time: 1.803 ms
+=== R03 run 2 ===
+Limit  (cost=73.29..73.37 rows=30 width=56) (actual time=0.126..0.129 rows=30.00 loops=1)
+  Buffers: shared hit=74
+  ->  Sort  (cost=73.29..73.64 rows=138 width=56) (actual time=0.125..0.127 rows=30.00 loops=1)
+        Sort Key: v.published_at DESC
+        Sort Method: quicksort  Memory: 30kB
+        Buffers: shared hit=74
+        ->  Nested Loop  (cost=1.15..69.22 rows=138 width=56) (actual time=0.028..0.110 rows=44.00 loops=1)
+              Join Filter: (s.channel_id = v.channel_id)
+              Buffers: shared hit=71
+              ->  Nested Loop  (cost=0.72..58.38 rows=6 width=20) (actual time=0.017..0.028 rows=3.00 loops=1)
+                    Buffers: shared hit=13
+                    ->  Index Only Scan using subscriptions_pkey on subscriptions s  (cost=0.43..8.54 rows=6 width=4) (actual time=0.009..0.009 rows=3.00 loops=1)
+                          Index Cond: (user_id = 1042)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=4
+                    ->  Index Scan using channels_pkey on channels c  (cost=0.29..8.31 rows=1 width=16) (actual time=0.006..0.006 rows=1.00 loops=3)
+                          Index Cond: (channel_id = s.channel_id)
+                          Index Searches: 3
+                          Buffers: shared hit=9
+              ->  Index Scan using videos_channel_uploaded_idx on videos v  (cost=0.42..1.67 rows=11 width=48) (actual time=0.008..0.026 rows=14.67 loops=3)
+                    Index Cond: (channel_id = c.channel_id)
+                    Filter: (visibility = 'PUBLIC'::text)
+                    Rows Removed by Filter: 2
+                    Index Searches: 3
+                    Buffers: shared hit=58
+Planning:
+  Buffers: shared hit=437
+Planning Time: 1.143 ms
+Execution Time: 0.158 ms
+=== R03 run 3 ===
+Limit  (cost=73.29..73.37 rows=30 width=56) (actual time=0.126..0.128 rows=30.00 loops=1)
+  Buffers: shared hit=74
+  ->  Sort  (cost=73.29..73.64 rows=138 width=56) (actual time=0.125..0.126 rows=30.00 loops=1)
+        Sort Key: v.published_at DESC
+        Sort Method: quicksort  Memory: 30kB
+        Buffers: shared hit=74
+        ->  Nested Loop  (cost=1.15..69.22 rows=138 width=56) (actual time=0.028..0.111 rows=44.00 loops=1)
+              Join Filter: (s.channel_id = v.channel_id)
+              Buffers: shared hit=71
+              ->  Nested Loop  (cost=0.72..58.38 rows=6 width=20) (actual time=0.017..0.029 rows=3.00 loops=1)
+                    Buffers: shared hit=13
+                    ->  Index Only Scan using subscriptions_pkey on subscriptions s  (cost=0.43..8.54 rows=6 width=4) (actual time=0.008..0.009 rows=3.00 loops=1)
+                          Index Cond: (user_id = 1042)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=4
+                    ->  Index Scan using channels_pkey on channels c  (cost=0.29..8.31 rows=1 width=16) (actual time=0.006..0.006 rows=1.00 loops=3)
+                          Index Cond: (channel_id = s.channel_id)
+                          Index Searches: 3
+                          Buffers: shared hit=9
+              ->  Index Scan using videos_channel_uploaded_idx on videos v  (cost=0.42..1.67 rows=11 width=48) (actual time=0.008..0.026 rows=14.67 loops=3)
+                    Index Cond: (channel_id = c.channel_id)
+                    Filter: (visibility = 'PUBLIC'::text)
+                    Rows Removed by Filter: 2
+                    Index Searches: 3
+                    Buffers: shared hit=58
+Planning:
+  Buffers: shared hit=437
+Planning Time: 1.056 ms
+Execution Time: 0.158 ms

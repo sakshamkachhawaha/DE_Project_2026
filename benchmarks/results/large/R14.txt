@@ -1,0 +1,102 @@
+=== R14 run 1 ===
+Sort  (cost=296.89..296.92 rows=12 width=84) (actual time=11.442..11.444 rows=60.00 loops=1)
+  Sort Key: (count(*) FILTER (WHERE (r.reaction = 'LIKE'::text))) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=172 read=225
+  ->  GroupAggregate  (cost=295.90..296.68 rows=12 width=84) (actual time=11.397..11.426 rows=60.00 loops=1)
+        Group Key: v.video_id
+        Buffers: shared hit=169 read=225
+        ->  Sort  (cost=295.90..295.97 rows=27 width=94) (actual time=11.388..11.392 rows=156.00 loops=1)
+              Sort Key: v.video_id
+              Sort Method: quicksort  Memory: 41kB
+              Buffers: shared hit=169 read=225
+              ->  Nested Loop Left Join  (cost=8.98..295.26 rows=27 width=94) (actual time=0.206..11.300 rows=156.00 loops=1)
+                    Buffers: shared hit=166 read=225
+                    ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=36) (actual time=0.017..0.098 rows=60.00 loops=1)
+                          Recheck Cond: (channel_id = 217)
+                          Heap Blocks: exact=60
+                          Buffers: shared hit=63
+                          ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.009..0.009 rows=60.00 loops=1)
+                                Index Cond: (channel_id = 217)
+                                Index Searches: 1
+                                Buffers: shared hit=3
+                    ->  Bitmap Heap Scan on video_reactions r  (cost=4.46..20.27 rows=4 width=70) (actual time=0.174..0.185 rows=2.47 loops=60)
+                          Recheck Cond: ((video_id)::text = (v.video_id)::text)
+                          Heap Blocks: exact=148
+                          Buffers: shared hit=103 read=225
+                          ->  Bitmap Index Scan on video_reactions_video_reaction_idx  (cost=0.00..4.46 rows=4 width=0) (actual time=0.159..0.159 rows=2.47 loops=60)
+                                Index Cond: ((video_id)::text = (v.video_id)::text)
+                                Index Searches: 60
+                                Buffers: shared hit=102 read=78
+Planning:
+  Buffers: shared hit=294 read=10 dirtied=1
+Planning Time: 2.506 ms
+Execution Time: 11.492 ms
+=== R14 run 2 ===
+Sort  (cost=296.89..296.92 rows=12 width=84) (actual time=0.568..0.570 rows=60.00 loops=1)
+  Sort Key: (count(*) FILTER (WHERE (r.reaction = 'LIKE'::text))) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=397
+  ->  GroupAggregate  (cost=295.90..296.68 rows=12 width=84) (actual time=0.528..0.554 rows=60.00 loops=1)
+        Group Key: v.video_id
+        Buffers: shared hit=394
+        ->  Sort  (cost=295.90..295.97 rows=27 width=94) (actual time=0.520..0.524 rows=156.00 loops=1)
+              Sort Key: v.video_id
+              Sort Method: quicksort  Memory: 41kB
+              Buffers: shared hit=394
+              ->  Nested Loop Left Join  (cost=8.98..295.26 rows=27 width=94) (actual time=0.032..0.470 rows=156.00 loops=1)
+                    Buffers: shared hit=391
+                    ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=36) (actual time=0.016..0.076 rows=60.00 loops=1)
+                          Recheck Cond: (channel_id = 217)
+                          Heap Blocks: exact=60
+                          Buffers: shared hit=63
+                          ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.009..0.009 rows=60.00 loops=1)
+                                Index Cond: (channel_id = 217)
+                                Index Searches: 1
+                                Buffers: shared hit=3
+                    ->  Bitmap Heap Scan on video_reactions r  (cost=4.46..20.27 rows=4 width=70) (actual time=0.004..0.006 rows=2.47 loops=60)
+                          Recheck Cond: ((video_id)::text = (v.video_id)::text)
+                          Heap Blocks: exact=148
+                          Buffers: shared hit=328
+                          ->  Bitmap Index Scan on video_reactions_video_reaction_idx  (cost=0.00..4.46 rows=4 width=0) (actual time=0.003..0.003 rows=2.47 loops=60)
+                                Index Cond: ((video_id)::text = (v.video_id)::text)
+                                Index Searches: 60
+                                Buffers: shared hit=180
+Planning:
+  Buffers: shared hit=304
+Planning Time: 0.692 ms
+Execution Time: 0.612 ms
+=== R14 run 3 ===
+Sort  (cost=296.89..296.92 rows=12 width=84) (actual time=0.585..0.586 rows=60.00 loops=1)
+  Sort Key: (count(*) FILTER (WHERE (r.reaction = 'LIKE'::text))) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=397
+  ->  GroupAggregate  (cost=295.90..296.68 rows=12 width=84) (actual time=0.534..0.568 rows=60.00 loops=1)
+        Group Key: v.video_id
+        Buffers: shared hit=394
+        ->  Sort  (cost=295.90..295.97 rows=27 width=94) (actual time=0.525..0.533 rows=156.00 loops=1)
+              Sort Key: v.video_id
+              Sort Method: quicksort  Memory: 41kB
+              Buffers: shared hit=394
+              ->  Nested Loop Left Join  (cost=8.98..295.26 rows=27 width=94) (actual time=0.036..0.483 rows=156.00 loops=1)
+                    Buffers: shared hit=391
+                    ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=36) (actual time=0.018..0.069 rows=60.00 loops=1)
+                          Recheck Cond: (channel_id = 217)
+                          Heap Blocks: exact=60
+                          Buffers: shared hit=63
+                          ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.010..0.011 rows=60.00 loops=1)
+                                Index Cond: (channel_id = 217)
+                                Index Searches: 1
+                                Buffers: shared hit=3
+                    ->  Bitmap Heap Scan on video_reactions r  (cost=4.46..20.27 rows=4 width=70) (actual time=0.005..0.006 rows=2.47 loops=60)
+                          Recheck Cond: ((video_id)::text = (v.video_id)::text)
+                          Heap Blocks: exact=148
+                          Buffers: shared hit=328
+                          ->  Bitmap Index Scan on video_reactions_video_reaction_idx  (cost=0.00..4.46 rows=4 width=0) (actual time=0.003..0.003 rows=2.47 loops=60)
+                                Index Cond: ((video_id)::text = (v.video_id)::text)
+                                Index Searches: 60
+                                Buffers: shared hit=180
+Planning:
+  Buffers: shared hit=304
+Planning Time: 0.701 ms
+Execution Time: 0.629 ms

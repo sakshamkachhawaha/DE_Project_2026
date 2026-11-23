@@ -1,0 +1,57 @@
+=== R01 run 1 ===
+Limit  (cost=47.90..47.92 rows=11 width=56) (actual time=0.747..0.749 rows=20.00 loops=1)
+  Buffers: shared hit=5 read=58
+  ->  Sort  (cost=47.90..47.92 rows=11 width=56) (actual time=0.746..0.747 rows=20.00 loops=1)
+        Sort Key: published_at DESC
+        Sort Method: top-N heapsort  Memory: 29kB
+        Buffers: shared hit=5 read=58
+        ->  Bitmap Heap Scan on videos  (cost=4.51..47.71 rows=11 width=56) (actual time=0.522..0.720 rows=56.00 loops=1)
+              Recheck Cond: ((channel_id = 217) AND (visibility = 'PUBLIC'::text))
+              Heap Blocks: exact=56
+              Buffers: shared hit=2 read=58
+              ->  Bitmap Index Scan on videos_public_channel_published_idx  (cost=0.00..4.51 rows=11 width=0) (actual time=0.471..0.471 rows=56.00 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Index Searches: 1
+                    Buffers: shared read=4
+Planning:
+  Buffers: shared hit=217 dirtied=2
+Planning Time: 0.744 ms
+Execution Time: 0.777 ms
+=== R01 run 2 ===
+Limit  (cost=47.90..47.92 rows=11 width=56) (actual time=0.134..0.137 rows=20.00 loops=1)
+  Buffers: shared hit=63
+  ->  Sort  (cost=47.90..47.92 rows=11 width=56) (actual time=0.133..0.134 rows=20.00 loops=1)
+        Sort Key: published_at DESC
+        Sort Method: top-N heapsort  Memory: 29kB
+        Buffers: shared hit=63
+        ->  Bitmap Heap Scan on videos  (cost=4.51..47.71 rows=11 width=56) (actual time=0.028..0.109 rows=56.00 loops=1)
+              Recheck Cond: ((channel_id = 217) AND (visibility = 'PUBLIC'::text))
+              Heap Blocks: exact=56
+              Buffers: shared hit=60
+              ->  Bitmap Index Scan on videos_public_channel_published_idx  (cost=0.00..4.51 rows=11 width=0) (actual time=0.015..0.015 rows=56.00 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Index Searches: 1
+                    Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=217
+Planning Time: 0.646 ms
+Execution Time: 0.163 ms
+=== R01 run 3 ===
+Limit  (cost=47.90..47.92 rows=11 width=56) (actual time=0.144..0.147 rows=20.00 loops=1)
+  Buffers: shared hit=63
+  ->  Sort  (cost=47.90..47.92 rows=11 width=56) (actual time=0.143..0.144 rows=20.00 loops=1)
+        Sort Key: published_at DESC
+        Sort Method: top-N heapsort  Memory: 29kB
+        Buffers: shared hit=63
+        ->  Bitmap Heap Scan on videos  (cost=4.51..47.71 rows=11 width=56) (actual time=0.027..0.118 rows=56.00 loops=1)
+              Recheck Cond: ((channel_id = 217) AND (visibility = 'PUBLIC'::text))
+              Heap Blocks: exact=56
+              Buffers: shared hit=60
+              ->  Bitmap Index Scan on videos_public_channel_published_idx  (cost=0.00..4.51 rows=11 width=0) (actual time=0.015..0.015 rows=56.00 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Index Searches: 1
+                    Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=217
+Planning Time: 0.664 ms
+Execution Time: 0.172 ms

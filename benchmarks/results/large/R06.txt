@@ -1,0 +1,51 @@
+=== R06 run 1 ===
+Sort  (cost=3633.38..3636.36 rows=1193 width=48) (actual time=0.723..0.730 rows=340.00 loops=1)
+  Sort Key: published_at
+  Sort Method: quicksort  Memory: 47kB
+  Buffers: shared hit=336 read=7
+  ->  Bitmap Heap Scan on videos  (cost=17.40..3572.41 rows=1193 width=48) (actual time=0.195..0.688 rows=340.00 loops=1)
+        Recheck Cond: ((published_at < '2026-07-08 00:00:00+05:30'::timestamp with time zone) AND (visibility = 'SCHEDULED'::text))
+        Heap Blocks: exact=339
+        Buffers: shared hit=333 read=7
+        ->  Bitmap Index Scan on videos_scheduled_published_idx  (cost=0.00..17.10 rows=1193 width=0) (actual time=0.173..0.173 rows=340.00 loops=1)
+              Index Cond: (published_at < '2026-07-08 00:00:00+05:30'::timestamp with time zone)
+              Index Searches: 1
+              Buffers: shared read=1
+Planning:
+  Buffers: shared hit=205
+Planning Time: 0.378 ms
+Execution Time: 0.749 ms
+=== R06 run 2 ===
+Sort  (cost=3633.38..3636.36 rows=1193 width=48) (actual time=0.491..0.497 rows=340.00 loops=1)
+  Sort Key: published_at
+  Sort Method: quicksort  Memory: 47kB
+  Buffers: shared hit=343
+  ->  Bitmap Heap Scan on videos  (cost=17.40..3572.41 rows=1193 width=48) (actual time=0.035..0.460 rows=340.00 loops=1)
+        Recheck Cond: ((published_at < '2026-07-08 00:00:00+05:30'::timestamp with time zone) AND (visibility = 'SCHEDULED'::text))
+        Heap Blocks: exact=339
+        Buffers: shared hit=340
+        ->  Bitmap Index Scan on videos_scheduled_published_idx  (cost=0.00..17.10 rows=1193 width=0) (actual time=0.013..0.013 rows=340.00 loops=1)
+              Index Cond: (published_at < '2026-07-08 00:00:00+05:30'::timestamp with time zone)
+              Index Searches: 1
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=205
+Planning Time: 0.358 ms
+Execution Time: 0.516 ms
+=== R06 run 3 ===
+Sort  (cost=3633.38..3636.36 rows=1193 width=48) (actual time=0.487..0.493 rows=340.00 loops=1)
+  Sort Key: published_at
+  Sort Method: quicksort  Memory: 47kB
+  Buffers: shared hit=343
+  ->  Bitmap Heap Scan on videos  (cost=17.40..3572.41 rows=1193 width=48) (actual time=0.034..0.455 rows=340.00 loops=1)
+        Recheck Cond: ((published_at < '2026-07-08 00:00:00+05:30'::timestamp with time zone) AND (visibility = 'SCHEDULED'::text))
+        Heap Blocks: exact=339
+        Buffers: shared hit=340
+        ->  Bitmap Index Scan on videos_scheduled_published_idx  (cost=0.00..17.10 rows=1193 width=0) (actual time=0.013..0.013 rows=340.00 loops=1)
+              Index Cond: (published_at < '2026-07-08 00:00:00+05:30'::timestamp with time zone)
+              Index Searches: 1
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=205
+Planning Time: 0.365 ms
+Execution Time: 0.512 ms

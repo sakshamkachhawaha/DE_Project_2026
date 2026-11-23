@@ -1,0 +1,60 @@
+=== R20 run 1 ===
+WindowAgg  (cost=30867.30..39863.23 rows=211670 width=68) (actual time=37.283..48.946 rows=30.00 loops=1)
+  Window: w1 AS (ORDER BY ((watch_events.started_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=800 read=2046, temp read=486 written=488
+  ->  GroupAggregate  (cost=30867.26..36688.18 rows=211670 width=36) (actual time=36.847..48.925 rows=30.00 loops=1)
+        Group Key: ((watch_events.started_at)::date)
+        Buffers: shared hit=800 read=2046, temp read=486 written=488
+        ->  Sort  (cost=30867.26..31396.43 rows=211670 width=8) (actual time=36.417..42.459 rows=219780.00 loops=1)
+              Sort Key: ((watch_events.started_at)::date)
+              Sort Method: external merge  Disk: 3888kB
+              Buffers: shared hit=800 read=2046, temp read=486 written=488
+              ->  Index Scan using watch_events_started_idx on watch_events  (cost=0.43..9249.00 rows=211670 width=8) (actual time=0.021..25.939 rows=219780.00 loops=1)
+                    Index Cond: ((started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Index Searches: 1
+                    Buffers: shared hit=797 read=2046
+Planning:
+  Buffers: shared hit=216 read=4
+Planning Time: 0.465 ms
+Execution Time: 49.757 ms
+=== R20 run 2 ===
+WindowAgg  (cost=30867.30..39863.23 rows=211670 width=68) (actual time=33.147..44.822 rows=30.00 loops=1)
+  Window: w1 AS (ORDER BY ((watch_events.started_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=2846, temp read=486 written=488
+  ->  GroupAggregate  (cost=30867.26..36688.18 rows=211670 width=36) (actual time=32.718..44.806 rows=30.00 loops=1)
+        Group Key: ((watch_events.started_at)::date)
+        Buffers: shared hit=2846, temp read=486 written=488
+        ->  Sort  (cost=30867.26..31396.43 rows=211670 width=8) (actual time=32.299..38.320 rows=219780.00 loops=1)
+              Sort Key: ((watch_events.started_at)::date)
+              Sort Method: external merge  Disk: 3888kB
+              Buffers: shared hit=2846, temp read=486 written=488
+              ->  Index Scan using watch_events_started_idx on watch_events  (cost=0.43..9249.00 rows=211670 width=8) (actual time=0.009..21.690 rows=219780.00 loops=1)
+                    Index Cond: ((started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Index Searches: 1
+                    Buffers: shared hit=2843
+Planning:
+  Buffers: shared hit=220
+Planning Time: 0.316 ms
+Execution Time: 45.838 ms
+=== R20 run 3 ===
+WindowAgg  (cost=30867.30..39863.23 rows=211670 width=68) (actual time=33.579..45.154 rows=30.00 loops=1)
+  Window: w1 AS (ORDER BY ((watch_events.started_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=2846, temp read=486 written=488
+  ->  GroupAggregate  (cost=30867.26..36688.18 rows=211670 width=36) (actual time=33.151..45.136 rows=30.00 loops=1)
+        Group Key: ((watch_events.started_at)::date)
+        Buffers: shared hit=2846, temp read=486 written=488
+        ->  Sort  (cost=30867.26..31396.43 rows=211670 width=8) (actual time=32.725..38.728 rows=219780.00 loops=1)
+              Sort Key: ((watch_events.started_at)::date)
+              Sort Method: external merge  Disk: 3888kB
+              Buffers: shared hit=2846, temp read=486 written=488
+              ->  Index Scan using watch_events_started_idx on watch_events  (cost=0.43..9249.00 rows=211670 width=8) (actual time=0.012..22.072 rows=219780.00 loops=1)
+                    Index Cond: ((started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Index Searches: 1
+                    Buffers: shared hit=2843
+Planning:
+  Buffers: shared hit=220
+Planning Time: 0.344 ms
+Execution Time: 46.169 ms
