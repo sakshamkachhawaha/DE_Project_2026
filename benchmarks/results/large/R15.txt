@@ -1,48 +1,45 @@
 === R15 run 1 ===
-Limit  (cost=16.50..16.51 rows=3 width=37) (actual time=0.350..0.351 rows=4.00 loops=1)
+Limit  (cost=16.50..16.51 rows=3 width=37) (actual time=0.311..0.311 rows=4 loops=1)
   Buffers: shared hit=8 read=7
-  ->  Sort  (cost=16.50..16.51 rows=3 width=37) (actual time=0.349..0.350 rows=4.00 loops=1)
+  ->  Sort  (cost=16.50..16.51 rows=3 width=37) (actual time=0.310..0.310 rows=4 loops=1)
         Sort Key: is_pinned DESC, like_count DESC
         Sort Method: quicksort  Memory: 25kB
         Buffers: shared hit=8 read=7
-        ->  Index Scan using comments_video_idx on comments  (cost=0.43..16.48 rows=3 width=37) (actual time=0.322..0.336 rows=4.00 loops=1)
+        ->  Index Scan using comments_video_idx on comments  (cost=0.43..16.48 rows=3 width=37) (actual time=0.292..0.300 rows=4 loops=1)
               Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
               Filter: (parent_comment_id IS NULL)
-              Index Searches: 1
               Buffers: shared read=7
 Planning:
-  Buffers: shared hit=162 read=4 dirtied=1
-Planning Time: 0.770 ms
-Execution Time: 0.364 ms
+  Buffers: shared hit=150 read=7
+Planning Time: 0.716 ms
+Execution Time: 0.321 ms
 === R15 run 2 ===
-Limit  (cost=16.50..16.51 rows=3 width=37) (actual time=0.026..0.026 rows=4.00 loops=1)
+Limit  (cost=16.50..16.51 rows=3 width=37) (actual time=0.023..0.023 rows=4 loops=1)
   Buffers: shared hit=15
-  ->  Sort  (cost=16.50..16.51 rows=3 width=37) (actual time=0.026..0.026 rows=4.00 loops=1)
+  ->  Sort  (cost=16.50..16.51 rows=3 width=37) (actual time=0.023..0.023 rows=4 loops=1)
         Sort Key: is_pinned DESC, like_count DESC
         Sort Method: quicksort  Memory: 25kB
         Buffers: shared hit=15
-        ->  Index Scan using comments_video_idx on comments  (cost=0.43..16.48 rows=3 width=37) (actual time=0.010..0.014 rows=4.00 loops=1)
+        ->  Index Scan using comments_video_idx on comments  (cost=0.43..16.48 rows=3 width=37) (actual time=0.011..0.013 rows=4 loops=1)
               Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
               Filter: (parent_comment_id IS NULL)
-              Index Searches: 1
               Buffers: shared hit=7
 Planning:
-  Buffers: shared hit=166
-Planning Time: 0.273 ms
-Execution Time: 0.039 ms
+  Buffers: shared hit=157
+Planning Time: 0.206 ms
+Execution Time: 0.033 ms
 === R15 run 3 ===
-Limit  (cost=16.50..16.51 rows=3 width=37) (actual time=0.023..0.024 rows=4.00 loops=1)
+Limit  (cost=16.50..16.51 rows=3 width=37) (actual time=0.022..0.023 rows=4 loops=1)
   Buffers: shared hit=15
-  ->  Sort  (cost=16.50..16.51 rows=3 width=37) (actual time=0.023..0.023 rows=4.00 loops=1)
+  ->  Sort  (cost=16.50..16.51 rows=3 width=37) (actual time=0.022..0.022 rows=4 loops=1)
         Sort Key: is_pinned DESC, like_count DESC
         Sort Method: quicksort  Memory: 25kB
         Buffers: shared hit=15
-        ->  Index Scan using comments_video_idx on comments  (cost=0.43..16.48 rows=3 width=37) (actual time=0.009..0.012 rows=4.00 loops=1)
+        ->  Index Scan using comments_video_idx on comments  (cost=0.43..16.48 rows=3 width=37) (actual time=0.010..0.013 rows=4 loops=1)
               Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
               Filter: (parent_comment_id IS NULL)
-              Index Searches: 1
               Buffers: shared hit=7
 Planning:
-  Buffers: shared hit=166
-Planning Time: 0.258 ms
-Execution Time: 0.034 ms
+  Buffers: shared hit=157
+Planning Time: 0.210 ms
+Execution Time: 0.033 ms

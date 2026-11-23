@@ -1,33 +1,30 @@
 === W03 run 1 ===
-Update on videos  (cost=0.42..8.45 rows=0 width=0) (actual time=1.018..1.018 rows=0.00 loops=1)
+Update on videos  (cost=0.42..8.45 rows=0 width=0) (actual time=1.646..1.647 rows=0 loops=1)
   Buffers: shared hit=70 read=6 dirtied=4
-  ->  Index Scan using videos_pkey on videos  (cost=0.42..8.45 rows=1 width=14) (actual time=0.015..0.016 rows=1.00 loops=1)
+  ->  Index Scan using videos_pkey on videos  (cost=0.42..8.45 rows=1 width=14) (actual time=0.015..0.016 rows=1 loops=1)
         Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
-        Index Searches: 1
         Buffers: shared hit=4
 Planning:
-  Buffers: shared hit=170 read=1
-Planning Time: 0.487 ms
-Execution Time: 1.891 ms
+  Buffers: shared hit=171 read=1
+Planning Time: 0.431 ms
+Execution Time: 1.946 ms
 === W03 run 2 ===
-Update on videos  (cost=0.42..8.45 rows=0 width=0) (actual time=0.608..0.608 rows=0.00 loops=1)
+Update on videos  (cost=0.42..8.45 rows=0 width=0) (actual time=0.704..0.704 rows=0 loops=1)
   Buffers: shared hit=77
-  ->  Index Scan using videos_pkey on videos  (cost=0.42..8.45 rows=1 width=14) (actual time=0.019..0.020 rows=1.00 loops=1)
+  ->  Index Scan using videos_pkey on videos  (cost=0.42..8.45 rows=1 width=14) (actual time=0.023..0.023 rows=1 loops=1)
         Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
-        Index Searches: 1
         Buffers: shared hit=5
 Planning:
-  Buffers: shared hit=171
-Planning Time: 0.327 ms
-Execution Time: 0.659 ms
+  Buffers: shared hit=172
+Planning Time: 0.287 ms
+Execution Time: 0.743 ms
 === W03 run 3 ===
-Update on videos  (cost=0.42..8.45 rows=0 width=0) (actual time=0.666..0.666 rows=0.00 loops=1)
-  Buffers: shared hit=81 read=1 dirtied=1
-  ->  Index Scan using videos_pkey on videos  (cost=0.42..8.45 rows=1 width=14) (actual time=0.019..0.021 rows=1.00 loops=1)
+Update on videos  (cost=0.42..8.45 rows=0 width=0) (actual time=0.742..0.742 rows=0 loops=1)
+  Buffers: shared hit=82 dirtied=1
+  ->  Index Scan using videos_pkey on videos  (cost=0.42..8.45 rows=1 width=14) (actual time=0.022..0.023 rows=1 loops=1)
         Index Cond: ((video_id)::text = 'ZkNSlUB1EOs'::text)
-        Index Searches: 1
         Buffers: shared hit=5
 Planning:
-  Buffers: shared hit=171
-Planning Time: 0.309 ms
-Execution Time: 0.715 ms
+  Buffers: shared hit=172
+Planning Time: 0.276 ms
+Execution Time: 0.778 ms

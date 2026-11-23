@@ -1,84 +1,78 @@
 === R09 run 1 ===
-Sort  (cost=114.82..114.85 rows=12 width=76) (actual time=0.462..0.464 rows=59.00 loops=1)
+Sort  (cost=114.82..114.85 rows=12 width=76) (actual time=0.555..0.557 rows=59 loops=1)
   Sort Key: (round((100.0 * avg(((w.watch_seconds)::numeric / (v.duration_sec)::numeric))), 1)) DESC
-  Sort Method: quicksort  Memory: 29kB
+  Sort Method: quicksort  Memory: 30kB
   Buffers: shared hit=383
-  ->  HashAggregate  (cost=114.39..114.60 rows=12 width=76) (actual time=0.431..0.444 rows=59.00 loops=1)
+  ->  HashAggregate  (cost=114.39..114.60 rows=12 width=76) (actual time=0.526..0.538 rows=59 loops=1)
         Group Key: v.video_id
         Batches: 1  Memory Usage: 56kB
         Buffers: shared hit=380
-        ->  Nested Loop  (cost=5.07..113.19 rows=80 width=44) (actual time=0.022..0.349 rows=410.00 loops=1)
+        ->  Nested Loop  (cost=5.07..113.19 rows=80 width=44) (actual time=0.024..0.444 rows=410 loops=1)
               Buffers: shared hit=380
-              ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=40) (actual time=0.015..0.063 rows=60.00 loops=1)
+              ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=40) (actual time=0.015..0.089 rows=60 loops=1)
                     Recheck Cond: (channel_id = 217)
                     Heap Blocks: exact=60
                     Buffers: shared hit=63
-                    ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.007..0.007 rows=60.00 loops=1)
+                    ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.009..0.009 rows=60 loops=1)
                           Index Cond: (channel_id = 217)
-                          Index Searches: 1
                           Buffers: shared hit=3
-              ->  Index Only Scan using watch_events_video_started_idx on watch_events w  (cost=0.56..5.05 rows=9 width=16) (actual time=0.004..0.004 rows=6.83 loops=60)
+              ->  Index Only Scan using watch_events_video_started_idx on watch_events w  (cost=0.56..5.05 rows=9 width=16) (actual time=0.005..0.006 rows=7 loops=60)
                     Index Cond: (video_id = (v.video_id)::text)
                     Heap Fetches: 0
-                    Index Searches: 60
                     Buffers: shared hit=317
 Planning:
-  Buffers: shared hit=378 read=1
-Planning Time: 0.882 ms
-Execution Time: 0.504 ms
+  Buffers: shared hit=379 read=1
+Planning Time: 0.801 ms
+Execution Time: 0.590 ms
 === R09 run 2 ===
-Sort  (cost=114.82..114.85 rows=12 width=76) (actual time=0.442..0.443 rows=59.00 loops=1)
+Sort  (cost=114.82..114.85 rows=12 width=76) (actual time=0.532..0.533 rows=59 loops=1)
   Sort Key: (round((100.0 * avg(((w.watch_seconds)::numeric / (v.duration_sec)::numeric))), 1)) DESC
-  Sort Method: quicksort  Memory: 29kB
+  Sort Method: quicksort  Memory: 30kB
   Buffers: shared hit=383
-  ->  HashAggregate  (cost=114.39..114.60 rows=12 width=76) (actual time=0.414..0.427 rows=59.00 loops=1)
+  ->  HashAggregate  (cost=114.39..114.60 rows=12 width=76) (actual time=0.502..0.515 rows=59 loops=1)
         Group Key: v.video_id
         Batches: 1  Memory Usage: 56kB
         Buffers: shared hit=380
-        ->  Nested Loop  (cost=5.07..113.19 rows=80 width=44) (actual time=0.022..0.333 rows=410.00 loops=1)
+        ->  Nested Loop  (cost=5.07..113.19 rows=80 width=44) (actual time=0.022..0.426 rows=410 loops=1)
               Buffers: shared hit=380
-              ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=40) (actual time=0.015..0.060 rows=60.00 loops=1)
+              ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=40) (actual time=0.013..0.085 rows=60 loops=1)
                     Recheck Cond: (channel_id = 217)
                     Heap Blocks: exact=60
                     Buffers: shared hit=63
-                    ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.007..0.007 rows=60.00 loops=1)
+                    ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.008..0.008 rows=60 loops=1)
                           Index Cond: (channel_id = 217)
-                          Index Searches: 1
                           Buffers: shared hit=3
-              ->  Index Only Scan using watch_events_video_started_idx on watch_events w  (cost=0.56..5.05 rows=9 width=16) (actual time=0.004..0.004 rows=6.83 loops=60)
+              ->  Index Only Scan using watch_events_video_started_idx on watch_events w  (cost=0.56..5.05 rows=9 width=16) (actual time=0.005..0.005 rows=7 loops=60)
                     Index Cond: (video_id = (v.video_id)::text)
                     Heap Fetches: 0
-                    Index Searches: 60
                     Buffers: shared hit=317
 Planning:
-  Buffers: shared hit=379
-Planning Time: 0.673 ms
-Execution Time: 0.483 ms
+  Buffers: shared hit=380
+Planning Time: 0.565 ms
+Execution Time: 0.564 ms
 === R09 run 3 ===
-Sort  (cost=114.82..114.85 rows=12 width=76) (actual time=0.509..0.511 rows=59.00 loops=1)
+Sort  (cost=114.82..114.85 rows=12 width=76) (actual time=0.624..0.625 rows=59 loops=1)
   Sort Key: (round((100.0 * avg(((w.watch_seconds)::numeric / (v.duration_sec)::numeric))), 1)) DESC
-  Sort Method: quicksort  Memory: 29kB
+  Sort Method: quicksort  Memory: 30kB
   Buffers: shared hit=383
-  ->  HashAggregate  (cost=114.39..114.60 rows=12 width=76) (actual time=0.479..0.492 rows=59.00 loops=1)
+  ->  HashAggregate  (cost=114.39..114.60 rows=12 width=76) (actual time=0.586..0.603 rows=59 loops=1)
         Group Key: v.video_id
         Batches: 1  Memory Usage: 56kB
         Buffers: shared hit=380
-        ->  Nested Loop  (cost=5.07..113.19 rows=80 width=44) (actual time=0.021..0.398 rows=410.00 loops=1)
+        ->  Nested Loop  (cost=5.07..113.19 rows=80 width=44) (actual time=0.027..0.494 rows=410 loops=1)
               Buffers: shared hit=380
-              ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=40) (actual time=0.014..0.067 rows=60.00 loops=1)
+              ->  Bitmap Heap Scan on videos v  (cost=4.52..51.56 rows=12 width=40) (actual time=0.016..0.091 rows=60 loops=1)
                     Recheck Cond: (channel_id = 217)
                     Heap Blocks: exact=60
                     Buffers: shared hit=63
-                    ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.007..0.007 rows=60.00 loops=1)
+                    ->  Bitmap Index Scan on videos_channel_uploaded_idx  (cost=0.00..4.51 rows=12 width=0) (actual time=0.010..0.010 rows=60 loops=1)
                           Index Cond: (channel_id = 217)
-                          Index Searches: 1
                           Buffers: shared hit=3
-              ->  Index Only Scan using watch_events_video_started_idx on watch_events w  (cost=0.56..5.05 rows=9 width=16) (actual time=0.005..0.005 rows=6.83 loops=60)
+              ->  Index Only Scan using watch_events_video_started_idx on watch_events w  (cost=0.56..5.05 rows=9 width=16) (actual time=0.006..0.006 rows=7 loops=60)
                     Index Cond: (video_id = (v.video_id)::text)
                     Heap Fetches: 0
-                    Index Searches: 60
                     Buffers: shared hit=317
 Planning:
-  Buffers: shared hit=379
-Planning Time: 0.644 ms
-Execution Time: 0.551 ms
+  Buffers: shared hit=380
+Planning Time: 0.571 ms
+Execution Time: 0.655 ms
