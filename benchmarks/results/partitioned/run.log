@@ -1,0 +1,124 @@
+=====================================================================
+CP4 Stage 6C.2: Partition Comparison Benchmark Execution Initialized
+Start Time:      2026-11-23 10:41:01Z
+Target Database: youtube_large
+Workload File:   /Users/barnakdas/Documents/DE_Project_2026/benchmarks/workload_partition_comparison.sql
+Output Target:   /Users/barnakdas/Documents/DE_Project_2026/benchmarks/results/partitioned
+Preflight:       PASSED (4M rows, 18 partitions, 0 EXCEPT ALL diffs)
+=====================================================================
+--- Step 4: Executing Counterbalanced Comparative Benchmark Suite ---
+=================================================================
+Benchmarking: R07 (CORE_PRUNING)
+=================================================================
+  Rep 1: Baseline -> Partitioned
+  Rep 2: Partitioned -> Baseline
+  Rep 3: Baseline -> Partitioned
+  Rep 4: Partitioned -> Baseline
+  Rep 5: Baseline -> Partitioned
+  Initial 5 runs: Baseline Mean=10.048ms (CV=2.1674), Partitioned Mean=1.986ms (CV=1.9528)
+  [ADAPTIVE FALLBACK TRIGGERED]: CV > 0.15 detected. Collecting 2 additional paired runs.
+  Rep 6: Partitioned -> Baseline
+  Rep 7: Baseline -> Partitioned
+  Recalculated 7 runs: Baseline Mean=7.272ms (CV=2.5306), Partitioned Mean=1.494ms (CV=2.1930)
+R07      CORE_PRUNING           base_med    0.324 ms | part_med    0.265 ms | speedup   22.26% | class DIRECT_SCAN_NO_APPEND
+=================================================================
+Benchmarking: R10_ref (CORE_PRUNING)
+=================================================================
+  Rep 1: Baseline -> Partitioned
+  Rep 2: Partitioned -> Baseline
+  Rep 3: Baseline -> Partitioned
+  Rep 4: Partitioned -> Baseline
+  Rep 5: Baseline -> Partitioned
+  Initial 5 runs: Baseline Mean=79.495ms (CV=1.5245), Partitioned Mean=26.875ms (CV=0.0726)
+  [ADAPTIVE FALLBACK TRIGGERED]: CV > 0.15 detected. Collecting 2 additional paired runs.
+  Rep 6: Partitioned -> Baseline
+  Rep 7: Baseline -> Partitioned
+  Recalculated 7 runs: Baseline Mean=64.055ms (CV=1.5987), Partitioned Mean=26.559ms (CV=0.0640)
+R10_ref  CORE_PRUNING           base_med   25.401 ms | part_med   26.183 ms | speedup   -2.99% | class DIRECT_SCAN_NO_APPEND
+=================================================================
+Benchmarking: R11 (CORE_PRUNING)
+=================================================================
+  Rep 1: Baseline -> Partitioned
+  Rep 2: Partitioned -> Baseline
+  Rep 3: Baseline -> Partitioned
+  Rep 4: Partitioned -> Baseline
+  Rep 5: Baseline -> Partitioned
+  Initial 5 runs: Baseline Mean=179.493ms (CV=0.0324), Partitioned Mean=372.294ms (CV=0.1957)
+  [ADAPTIVE FALLBACK TRIGGERED]: CV > 0.15 detected. Collecting 2 additional paired runs.
+  Rep 6: Partitioned -> Baseline
+  Rep 7: Baseline -> Partitioned
+  Recalculated 7 runs: Baseline Mean=180.319ms (CV=0.0314), Partitioned Mean=362.930ms (CV=0.1700)
+R11      CORE_PRUNING           base_med  177.664 ms | part_med  342.783 ms | speedup  -48.17% | class DIRECT_SCAN_NO_APPEND
+=================================================================
+Benchmarking: R12 (CORE_NEGATIVE_CONTROL)
+=================================================================
+  Rep 1: Baseline -> Partitioned
+  Rep 2: Partitioned -> Baseline
+  Rep 3: Baseline -> Partitioned
+  Rep 4: Partitioned -> Baseline
+  Rep 5: Baseline -> Partitioned
+  Initial 5 runs: Baseline Mean=133.388ms (CV=0.0377), Partitioned Mean=195.032ms (CV=0.0289)
+R12      CORE_NEGATIVE_CONTROL  base_med  133.923 ms | part_med  193.412 ms | speedup  -30.76% | class FULL_TABLE_SCAN_NO_PRUNING
+=================================================================
+Benchmarking: R17 (CORE_NEGATIVE_CONTROL)
+=================================================================
+  Rep 1: Baseline -> Partitioned
+  Rep 2: Partitioned -> Baseline
+  Rep 3: Baseline -> Partitioned
+  Rep 4: Partitioned -> Baseline
+  Rep 5: Baseline -> Partitioned
+  Initial 5 runs: Baseline Mean=153.763ms (CV=0.7507), Partitioned Mean=620.919ms (CV=0.4741)
+  [ADAPTIVE FALLBACK TRIGGERED]: CV > 0.15 detected. Collecting 2 additional paired runs.
+  Rep 6: Partitioned -> Baseline
+  Rep 7: Baseline -> Partitioned
+  Recalculated 7 runs: Baseline Mean=138.248ms (CV=0.7082), Partitioned Mean=581.068ms (CV=0.4300)
+R17      CORE_NEGATIVE_CONTROL  base_med  100.549 ms | part_med  490.822 ms | speedup  -79.51% | class FULL_TABLE_SCAN_NO_PRUNING
+=================================================================
+Benchmarking: R19 (CORE_NEGATIVE_CONTROL)
+=================================================================
+  Rep 1: Baseline -> Partitioned
+  Rep 2: Partitioned -> Baseline
+  Rep 3: Baseline -> Partitioned
+  Rep 4: Partitioned -> Baseline
+  Rep 5: Baseline -> Partitioned
+  Initial 5 runs: Baseline Mean=554.878ms (CV=0.0568), Partitioned Mean=577.437ms (CV=0.0338)
+R19      CORE_NEGATIVE_CONTROL  base_med  561.364 ms | part_med  583.892 ms | speedup   -3.86% | class FULL_TABLE_SCAN_NO_PRUNING
+=================================================================
+Benchmarking: R20 (CORE_PRUNING)
+=================================================================
+  Rep 1: Baseline -> Partitioned
+  Rep 2: Partitioned -> Baseline
+  Rep 3: Baseline -> Partitioned
+  Rep 4: Partitioned -> Baseline
+  Rep 5: Baseline -> Partitioned
+  Initial 5 runs: Baseline Mean=47.758ms (CV=0.0760), Partitioned Mean=42.774ms (CV=0.0235)
+R20      CORE_PRUNING           base_med   46.842 ms | part_med   42.737 ms | speedup    9.61% | class DIRECT_SCAN_NO_APPEND
+=================================================================
+Benchmarking: R16 (DIAGNOSTIC_JOIN_PATH)
+=================================================================
+  Rep 1: Baseline -> Partitioned
+  Rep 2: Partitioned -> Baseline
+  Rep 3: Baseline -> Partitioned
+  Rep 4: Partitioned -> Baseline
+  Rep 5: Baseline -> Partitioned
+  Initial 5 runs: Baseline Mean=153.187ms (CV=0.0375), Partitioned Mean=223.544ms (CV=0.0122)
+R16      DIAGNOSTIC_JOIN_PATH   base_med  152.700 ms | part_med  222.739 ms | speedup  -31.44% | class FULL_TABLE_SCAN_NO_PRUNING
+=================================================================
+Benchmarking: R25 (DIAGNOSTIC_JOIN_PATH)
+=================================================================
+  Rep 1: Baseline -> Partitioned
+  Rep 2: Partitioned -> Baseline
+  Rep 3: Baseline -> Partitioned
+  Rep 4: Partitioned -> Baseline
+  Rep 5: Baseline -> Partitioned
+  Initial 5 runs: Baseline Mean=457.828ms (CV=0.1256), Partitioned Mean=457.684ms (CV=0.0199)
+R25      DIAGNOSTIC_JOIN_PATH   base_med  424.240 ms | part_med  452.117 ms | speedup   -6.17% | class FULL_TABLE_SCAN_NO_PRUNING
+--- Step 5: Executing W02 Partition Boundary Write Diagnostic ---
+W02 Diagnostic Outcome: PASS (Classification: EXPECTED_ROUTING_REJECTION, SQLSTATE: 23514)
+=====================================================================
+CP4 Stage 6C.2 Benchmark Run Complete.
+End Time:   2026-11-23 10:41:38Z
+Summary:    /Users/barnakdas/Documents/DE_Project_2026/benchmarks/results/partitioned/comparison_summary.csv
+W02 Report: /Users/barnakdas/Documents/DE_Project_2026/benchmarks/results/partitioned/w02_diagnostic.txt
+Log File:   /Users/barnakdas/Documents/DE_Project_2026/benchmarks/results/partitioned/run.log
+=====================================================================

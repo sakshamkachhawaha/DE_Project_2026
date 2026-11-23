@@ -1,0 +1,32 @@
+================================================================================
+W02 PARTITION BOUNDARY WRITE ROUTING DIAGNOSTIC REPORT
+================================================================================
+Diagnostic ID:                 W02_PARTITION_ROUTING_BOUNDARY
+Target Relation:               youtube_part.watch_events_partitioned
+Intended Timestamp:            2026-07-01 19:00:00+05:30
+Partition Upper Bound:         2026-07-01 00:00:00+05:30 (watch_events_2026_06)
+Target Database:               youtube_large
+FK Precondition (1042/video):  PASS (Both parent keys verified in youtube.*)
+
+Expected SQLSTATE:             23514 (check_violation)
+Expected Error Pattern:        no partition of relation "watch_events_partitioned" found for row
+
+Observed SQLSTATE:             23514
+Observed Error Message:        no partition of relation "watch_events_partitioned" found for row
+Observed Error Detail:         Partition key of the failing row contains (started_at) = (2026-07-01 19:00:00+05:30).
+Error Classification:          EXPECTED_ROUTING_REJECTION
+
+Outer Transaction Rollback:    CONFIRMED_ROLLED_BACK
+
+Pre-W02 EXCEPT ALL Diffs:      0 (Target: 0)
+Post-W02 EXCEPT ALL Diffs:     0 (Target: 0)
+Assertion 1 (Base Invariance): PASS
+
+Pre-W02 Partitioned Rows:      4000000 (Target: 4000000)
+Post-W02 Partitioned Rows:     4000000 (Target: 4000000)
+Assertion 2 (Part Invariance): PASS
+
+Assertion 3 (Routing Reject):  PASS (SQLSTATE 23514 + canonical pattern)
+
+OVERALL DIAGNOSTIC STATUS:     PASS
+================================================================================

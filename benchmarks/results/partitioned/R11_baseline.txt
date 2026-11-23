@@ -1,0 +1,315 @@
+=== R11 Baseline Run 1 ===
+Incremental Sort  (cost=90369.09..107811.89 rows=211670 width=58) (actual time=169.505..182.233 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=13969 read=2210, temp read=2859 written=2866
+  ->  WindowAgg  (cost=90294.76..94528.14 rows=211670 width=58) (actual time=164.057..182.195 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=13966 read=2210, temp read=2859 written=2866
+        ->  Sort  (cost=90294.74..90823.91 rows=211670 width=50) (actual time=164.049..177.784 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=13966 read=2210, temp read=2859 written=2866
+              ->  GroupAggregate  (cost=36505.47..64332.98 rows=211670 width=50) (actual time=67.955..119.905 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=13966 read=2210, temp read=1438 written=1441
+                    ->  Gather Merge  (cost=36505.47..61157.93 rows=211670 width=42) (actual time=67.950..97.832 rows=219780.00 loops=1)
+                          Workers Planned: 2
+                          Workers Launched: 2
+                          Buffers: shared hit=13966 read=2210, temp read=1438 written=1441
+                          ->  Sort  (cost=35505.45..35725.94 rows=88196 width=42) (actual time=66.340..70.651 rows=73260.00 loops=3)
+                                Sort Key: v.video_id
+                                Sort Method: external merge  Disk: 3824kB
+                                Buffers: shared hit=13966 read=2210, temp read=1438 written=1441
+                                Worker 0:  Sort Method: external merge  Disk: 3848kB
+                                Worker 1:  Sort Method: external merge  Disk: 3832kB
+                                ->  Parallel Hash Join  (cost=8058.36..25544.84 rows=88196 width=42) (actual time=12.323..44.444 rows=73260.00 loops=3)
+                                      Hash Cond: ((v.video_id)::text = (w.video_id)::text)
+                                      Buffers: shared hit=13950 read=2210
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=42) (actual time=0.008..8.147 rows=200000.00 loops=3)
+                                            Buffers: shared hit=12712 read=32
+                                      ->  Parallel Hash  (cost=6955.91..6955.91 rows=88196 width=12) (actual time=12.233..12.233 rows=73260.00 loops=3)
+                                            Buckets: 262144  Batches: 1  Memory Usage: 12416kB
+                                            Buffers: shared hit=1238 read=2178
+                                            ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..6955.91 rows=88196 width=12) (actual time=0.125..7.824 rows=73260.00 loops=3)
+                                                  Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=1238 read=2178
+Planning:
+  Buffers: shared hit=367 read=1
+Planning Time: 0.696 ms
+Execution Time: 188.749 ms
+=== R11 Baseline Run 2 ===
+Incremental Sort  (cost=90369.09..107811.89 rows=211670 width=58) (actual time=161.544..174.454 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=11218 read=4946, temp read=2859 written=2866
+  ->  WindowAgg  (cost=90294.76..94528.14 rows=211670 width=58) (actual time=156.297..174.419 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=11215 read=4946, temp read=2859 written=2866
+        ->  Sort  (cost=90294.74..90823.91 rows=211670 width=50) (actual time=156.290..170.133 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=11215 read=4946, temp read=2859 written=2866
+              ->  GroupAggregate  (cost=36505.47..64332.98 rows=211670 width=50) (actual time=65.439..114.882 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=11215 read=4946, temp read=1438 written=1441
+                    ->  Gather Merge  (cost=36505.47..61157.93 rows=211670 width=42) (actual time=65.434..93.842 rows=219780.00 loops=1)
+                          Workers Planned: 2
+                          Workers Launched: 2
+                          Buffers: shared hit=11215 read=4946, temp read=1438 written=1441
+                          ->  Sort  (cost=35505.45..35725.94 rows=88196 width=42) (actual time=63.788..68.155 rows=73260.00 loops=3)
+                                Sort Key: v.video_id
+                                Sort Method: external merge  Disk: 3848kB
+                                Buffers: shared hit=11215 read=4946, temp read=1438 written=1441
+                                Worker 0:  Sort Method: external merge  Disk: 3832kB
+                                Worker 1:  Sort Method: external merge  Disk: 3824kB
+                                ->  Parallel Hash Join  (cost=8058.36..25544.84 rows=88196 width=42) (actual time=12.176..43.278 rows=73260.00 loops=3)
+                                      Hash Cond: ((v.video_id)::text = (w.video_id)::text)
+                                      Buffers: shared hit=11199 read=4946
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=42) (actual time=0.053..7.434 rows=200000.00 loops=3)
+                                            Buffers: shared hit=10641 read=2103
+                                      ->  Parallel Hash  (cost=6955.91..6955.91 rows=88196 width=12) (actual time=12.040..12.040 rows=73260.00 loops=3)
+                                            Buckets: 262144  Batches: 1  Memory Usage: 12416kB
+                                            Buffers: shared hit=558 read=2843
+                                            ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..6955.91 rows=88196 width=12) (actual time=0.051..7.169 rows=73260.00 loops=3)
+                                                  Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=558 read=2843
+Planning:
+  Buffers: shared hit=325 read=43
+Planning Time: 0.862 ms
+Execution Time: 175.796 ms
+=== R11 Baseline Run 3 ===
+Incremental Sort  (cost=90369.09..107811.89 rows=211670 width=58) (actual time=159.365..172.657 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=14346 read=1821, temp read=2858 written=2865
+  ->  WindowAgg  (cost=90294.76..94528.14 rows=211670 width=58) (actual time=153.893..172.610 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=14343 read=1821, temp read=2858 written=2865
+        ->  Sort  (cost=90294.74..90823.91 rows=211670 width=50) (actual time=153.883..167.830 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=14343 read=1821, temp read=2858 written=2865
+              ->  GroupAggregate  (cost=36505.47..64332.98 rows=211670 width=50) (actual time=63.480..111.356 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=14343 read=1821, temp read=1437 written=1440
+                    ->  Gather Merge  (cost=36505.47..61157.93 rows=211670 width=42) (actual time=63.474..91.230 rows=219780.00 loops=1)
+                          Workers Planned: 2
+                          Workers Launched: 2
+                          Buffers: shared hit=14343 read=1821, temp read=1437 written=1440
+                          ->  Sort  (cost=35505.45..35725.94 rows=88196 width=42) (actual time=62.031..66.585 rows=73260.00 loops=3)
+                                Sort Key: v.video_id
+                                Sort Method: external merge  Disk: 3864kB
+                                Buffers: shared hit=14343 read=1821, temp read=1437 written=1440
+                                Worker 0:  Sort Method: external merge  Disk: 3824kB
+                                Worker 1:  Sort Method: external merge  Disk: 3808kB
+                                ->  Parallel Hash Join  (cost=8058.36..25544.84 rows=88196 width=42) (actual time=9.284..41.178 rows=73260.00 loops=3)
+                                      Hash Cond: ((v.video_id)::text = (w.video_id)::text)
+                                      Buffers: shared hit=14327 read=1821
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=42) (actual time=0.062..7.635 rows=200000.00 loops=3)
+                                            Buffers: shared hit=10923 read=1821
+                                      ->  Parallel Hash  (cost=6955.91..6955.91 rows=88196 width=12) (actual time=9.150..9.150 rows=73260.00 loops=3)
+                                            Buckets: 262144  Batches: 1  Memory Usage: 12416kB
+                                            Buffers: shared hit=3404
+                                            ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..6955.91 rows=88196 width=12) (actual time=0.009..5.066 rows=73260.00 loops=3)
+                                                  Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=3404
+Planning:
+  Buffers: shared hit=368
+Planning Time: 0.642 ms
+Execution Time: 174.350 ms
+=== R11 Baseline Run 4 ===
+Incremental Sort  (cost=90369.09..107811.89 rows=211670 width=58) (actual time=158.629..171.251 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=11370 read=4794, temp read=2859 written=2866
+  ->  WindowAgg  (cost=90294.76..94528.14 rows=211670 width=58) (actual time=153.318..171.204 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=11367 read=4794, temp read=2859 written=2866
+        ->  Sort  (cost=90294.74..90823.91 rows=211670 width=50) (actual time=153.308..166.963 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=11367 read=4794, temp read=2859 written=2866
+              ->  GroupAggregate  (cost=36505.47..64332.98 rows=211670 width=50) (actual time=65.053..111.738 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=11367 read=4794, temp read=1438 written=1441
+                    ->  Gather Merge  (cost=36505.47..61157.93 rows=211670 width=42) (actual time=65.047..91.085 rows=219780.00 loops=1)
+                          Workers Planned: 2
+                          Workers Launched: 2
+                          Buffers: shared hit=11367 read=4794, temp read=1438 written=1441
+                          ->  Sort  (cost=35505.45..35725.94 rows=88196 width=42) (actual time=63.352..67.828 rows=73260.00 loops=3)
+                                Sort Key: v.video_id
+                                Sort Method: external merge  Disk: 3904kB
+                                Buffers: shared hit=11367 read=4794, temp read=1438 written=1441
+                                Worker 0:  Sort Method: external merge  Disk: 3848kB
+                                Worker 1:  Sort Method: external merge  Disk: 3752kB
+                                ->  Parallel Hash Join  (cost=8058.36..25544.84 rows=88196 width=42) (actual time=11.973..42.922 rows=73260.00 loops=3)
+                                      Hash Cond: ((v.video_id)::text = (w.video_id)::text)
+                                      Buffers: shared hit=11351 read=4794
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=42) (actual time=0.055..7.777 rows=200000.00 loops=3)
+                                            Buffers: shared hit=10793 read=1951
+                                      ->  Parallel Hash  (cost=6955.91..6955.91 rows=88196 width=12) (actual time=11.846..11.846 rows=73260.00 loops=3)
+                                            Buckets: 262144  Batches: 1  Memory Usage: 12416kB
+                                            Buffers: shared hit=558 read=2843
+                                            ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..6955.91 rows=88196 width=12) (actual time=0.047..7.101 rows=73260.00 loops=3)
+                                                  Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=558 read=2843
+Planning:
+  Buffers: shared hit=325 read=43
+Planning Time: 0.954 ms
+Execution Time: 177.081 ms
+=== R11 Baseline Run 5 ===
+Incremental Sort  (cost=90369.09..107811.89 rows=211670 width=58) (actual time=162.244..175.438 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=14496 read=1669, temp read=2860 written=2867
+  ->  WindowAgg  (cost=90294.76..94528.14 rows=211670 width=58) (actual time=156.839..175.398 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=14493 read=1669, temp read=2860 written=2867
+        ->  Sort  (cost=90294.74..90823.91 rows=211670 width=50) (actual time=156.830..170.383 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=14493 read=1669, temp read=2860 written=2867
+              ->  GroupAggregate  (cost=36505.47..64332.98 rows=211670 width=50) (actual time=62.423..111.159 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=14493 read=1669, temp read=1439 written=1442
+                    ->  Gather Merge  (cost=36505.47..61157.93 rows=211670 width=42) (actual time=62.416..90.367 rows=219780.00 loops=1)
+                          Workers Planned: 2
+                          Workers Launched: 2
+                          Buffers: shared hit=14493 read=1669, temp read=1439 written=1442
+                          ->  Sort  (cost=35505.45..35725.94 rows=88196 width=42) (actual time=60.768..65.102 rows=73260.00 loops=3)
+                                Sort Key: v.video_id
+                                Sort Method: external merge  Disk: 3872kB
+                                Buffers: shared hit=14493 read=1669, temp read=1439 written=1442
+                                Worker 0:  Sort Method: external merge  Disk: 3864kB
+                                Worker 1:  Sort Method: external merge  Disk: 3776kB
+                                ->  Parallel Hash Join  (cost=8058.36..25544.84 rows=88196 width=42) (actual time=9.290..40.396 rows=73260.00 loops=3)
+                                      Hash Cond: ((v.video_id)::text = (w.video_id)::text)
+                                      Buffers: shared hit=14477 read=1669
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=42) (actual time=0.047..7.660 rows=200000.00 loops=3)
+                                            Buffers: shared hit=11075 read=1669
+                                      ->  Parallel Hash  (cost=6955.91..6955.91 rows=88196 width=12) (actual time=9.147..9.148 rows=73260.00 loops=3)
+                                            Buckets: 262144  Batches: 1  Memory Usage: 12416kB
+                                            Buffers: shared hit=3402
+                                            ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..6955.91 rows=88196 width=12) (actual time=0.008..5.124 rows=73260.00 loops=3)
+                                                  Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=3402
+Planning:
+  Buffers: shared hit=368
+Planning Time: 0.646 ms
+Execution Time: 181.487 ms
+=== R11 Baseline Run 6 ===
+Incremental Sort  (cost=90369.09..107811.89 rows=211670 width=58) (actual time=166.739..179.581 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=11359 read=4808, temp read=2859 written=2866
+  ->  WindowAgg  (cost=90294.76..94528.14 rows=211670 width=58) (actual time=161.304..179.537 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=11356 read=4808, temp read=2859 written=2866
+        ->  Sort  (cost=90294.74..90823.91 rows=211670 width=50) (actual time=161.293..175.228 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=11356 read=4808, temp read=2859 written=2866
+              ->  GroupAggregate  (cost=36505.47..64332.98 rows=211670 width=50) (actual time=68.045..117.569 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=11356 read=4808, temp read=1438 written=1441
+                    ->  Gather Merge  (cost=36505.47..61157.93 rows=211670 width=42) (actual time=68.038..96.444 rows=219780.00 loops=1)
+                          Workers Planned: 2
+                          Workers Launched: 2
+                          Buffers: shared hit=11356 read=4808, temp read=1438 written=1441
+                          ->  Sort  (cost=35505.45..35725.94 rows=88196 width=42) (actual time=66.065..70.608 rows=73260.00 loops=3)
+                                Sort Key: v.video_id
+                                Sort Method: external merge  Disk: 3752kB
+                                Buffers: shared hit=11356 read=4808, temp read=1438 written=1441
+                                Worker 0:  Sort Method: external merge  Disk: 3816kB
+                                Worker 1:  Sort Method: external merge  Disk: 3936kB
+                                ->  Parallel Hash Join  (cost=8058.36..25544.84 rows=88196 width=42) (actual time=12.689..45.109 rows=73260.00 loops=3)
+                                      Hash Cond: ((v.video_id)::text = (w.video_id)::text)
+                                      Buffers: shared hit=11340 read=4808
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=42) (actual time=0.059..7.985 rows=200000.00 loops=3)
+                                            Buffers: shared hit=10779 read=1965
+                                      ->  Parallel Hash  (cost=6955.91..6955.91 rows=88196 width=12) (actual time=12.546..12.546 rows=73260.00 loops=3)
+                                            Buckets: 262144  Batches: 1  Memory Usage: 12416kB
+                                            Buffers: shared hit=561 read=2843
+                                            ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..6955.91 rows=88196 width=12) (actual time=0.047..7.761 rows=73260.00 loops=3)
+                                                  Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=561 read=2843
+Planning:
+  Buffers: shared hit=325 read=43
+Planning Time: 0.849 ms
+Execution Time: 187.103 ms
+=== R11 Baseline Run 7 ===
+Incremental Sort  (cost=90369.09..107811.89 rows=211670 width=58) (actual time=159.187..171.709 rows=142.00 loops=1)
+  Sort Key: v.category, (rank() OVER w1)
+  Presorted Key: v.category
+  Full-sort Groups: 3  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
+  Pre-sorted Groups: 5  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+  Buffers: shared hit=14482 read=1683, temp read=2858 written=2865
+  ->  WindowAgg  (cost=90294.76..94528.14 rows=211670 width=58) (actual time=154.060..171.669 rows=142.00 loops=1)
+        Window: w1 AS (PARTITION BY v.category ORDER BY (count(*)) ROWS UNBOUNDED PRECEDING)
+        Run Condition: (rank() OVER w1 <= 5)
+        Storage: Memory  Maximum Storage: 17kB
+        Buffers: shared hit=14479 read=1683, temp read=2858 written=2865
+        ->  Sort  (cost=90294.74..90823.91 rows=211670 width=50) (actual time=154.052..167.472 rows=173632.00 loops=1)
+              Sort Key: v.category, (count(*)) DESC
+              Sort Method: external merge  Disk: 11368kB
+              Buffers: shared hit=14479 read=1683, temp read=2858 written=2865
+              ->  GroupAggregate  (cost=36505.47..64332.98 rows=211670 width=50) (actual time=61.763..109.715 rows=173632.00 loops=1)
+                    Group Key: v.video_id
+                    Buffers: shared hit=14479 read=1683, temp read=1437 written=1440
+                    ->  Gather Merge  (cost=36505.47..61157.93 rows=211670 width=42) (actual time=61.754..89.562 rows=219780.00 loops=1)
+                          Workers Planned: 2
+                          Workers Launched: 2
+                          Buffers: shared hit=14479 read=1683, temp read=1437 written=1440
+                          ->  Sort  (cost=35505.45..35725.94 rows=88196 width=42) (actual time=60.288..64.912 rows=73260.00 loops=3)
+                                Sort Key: v.video_id
+                                Sort Method: external merge  Disk: 3824kB
+                                Buffers: shared hit=14479 read=1683, temp read=1437 written=1440
+                                Worker 0:  Sort Method: external merge  Disk: 3824kB
+                                Worker 1:  Sort Method: external merge  Disk: 3848kB
+                                ->  Parallel Hash Join  (cost=8058.36..25544.84 rows=88196 width=42) (actual time=9.061..39.671 rows=73260.00 loops=3)
+                                      Hash Cond: ((v.video_id)::text = (w.video_id)::text)
+                                      Buffers: shared hit=14463 read=1683
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=42) (actual time=0.047..7.792 rows=200000.00 loops=3)
+                                            Buffers: shared hit=11061 read=1683
+                                      ->  Parallel Hash  (cost=6955.91..6955.91 rows=88196 width=12) (actual time=8.943..8.943 rows=73260.00 loops=3)
+                                            Buckets: 262144  Batches: 1  Memory Usage: 12416kB
+                                            Buffers: shared hit=3402
+                                            ->  Parallel Index Scan using watch_events_started_idx on watch_events w  (cost=0.43..6955.91 rows=88196 width=12) (actual time=0.007..4.958 rows=73260.00 loops=3)
+                                                  Index Cond: (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=3402
+Planning:
+  Buffers: shared hit=368
+Planning Time: 0.658 ms
+Execution Time: 177.664 ms

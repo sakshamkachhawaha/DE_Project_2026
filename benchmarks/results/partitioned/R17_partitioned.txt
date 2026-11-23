@@ -1,0 +1,952 @@
+=== R17 Partitioned Run 1 ===
+Sort  (cost=95715.37..95717.06 rows=678 width=60) (actual time=1145.530..1147.326 rows=525.00 loops=1)
+  Sort Key: (round(((sum(w.watch_seconds))::numeric / 3600.0), 1)) DESC
+  Sort Method: quicksort  Memory: 53kB
+  Buffers: shared hit=3137587 read=55332
+  ->  Finalize GroupAggregate  (cost=95049.81..95683.48 rows=678 width=60) (actual time=1144.380..1147.229 rows=525.00 loops=1)
+        Group Key: c.handle
+        Filter: (((sum(w.watch_seconds))::numeric / 3600.0) >= '40'::numeric)
+        Rows Removed by Filter: 1493
+        Buffers: shared hit=3137584 read=55332
+        ->  Gather Merge  (cost=95049.81..95618.39 rows=4882 width=36) (actual time=1144.366..1146.654 rows=6051.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=3137584 read=55332
+              ->  Sort  (cost=94049.78..94054.87 rows=2034 width=36) (actual time=1141.959..1142.000 rows=2017.00 loops=3)
+                    Sort Key: c.handle
+                    Sort Method: quicksort  Memory: 158kB
+                    Buffers: shared hit=3137584 read=55332
+                    Worker 0:  Sort Method: quicksort  Memory: 158kB
+                    Worker 1:  Sort Method: quicksort  Memory: 158kB
+                    ->  Partial HashAggregate  (cost=93917.67..93938.01 rows=2034 width=36) (actual time=1140.553..1140.670 rows=2017.00 loops=3)
+                          Group Key: c.handle
+                          Batches: 1  Memory Usage: 217kB
+                          Buffers: shared hit=3137568 read=55332
+                          Worker 0:  Batches: 1  Memory Usage: 217kB
+                          Worker 1:  Batches: 1  Memory Usage: 217kB
+                          ->  Nested Loop  (cost=1665.85..93635.17 rows=56500 width=32) (actual time=3.539..1126.978 rows=130414.67 loops=3)
+                                Buffers: shared hit=3137568 read=55332
+                                ->  Hash Join  (cost=1665.42..17565.72 rows=8475 width=40) (actual time=2.905..24.741 rows=19616.33 loops=3)
+                                      Hash Cond: (v.channel_id = c.channel_id)
+                                      Buffers: shared hit=1480 read=13484
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=16) (actual time=0.035..7.441 rows=200000.00 loops=3)
+                                            Buffers: shared read=12744
+                                      ->  Hash  (cost=1640.00..1640.00 rows=2034 width=28) (actual time=2.861..2.861 rows=2018.00 loops=3)
+                                            Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                            Buffers: shared hit=1480 read=740
+                                            ->  Seq Scan on channels c  (cost=0.00..1640.00 rows=2034 width=28) (actual time=0.021..2.729 rows=2018.00 loops=3)
+                                                  Filter: ((subscriber_count >= 100) AND (monetization_status = 'NOT_ELIGIBLE'::text))
+                                                  Rows Removed by Filter: 57982
+                                                  Buffers: shared hit=1480 read=740
+                                ->  Append  (cost=0.42..8.63 rows=35 width=16) (actual time=0.026..0.056 rows=6.65 loops=58849)
+                                      Buffers: shared hit=3136088 read=41848
+                                      ->  Index Only Scan using watch_events_2025_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_01 w_1  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174226 read=2326
+                                      ->  Index Only Scan using watch_events_2025_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_02 w_2  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174347 read=2205
+                                      ->  Index Only Scan using watch_events_2025_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_03 w_3  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174167 read=2385
+                                      ->  Index Only Scan using watch_events_2025_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_04 w_4  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.36 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174259 read=2293
+                                      ->  Index Only Scan using watch_events_2025_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_05 w_5  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174167 read=2385
+                                      ->  Index Only Scan using watch_events_2025_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_06 w_6  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174249 read=2303
+                                      ->  Index Only Scan using watch_events_2025_07_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_07 w_7  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174179 read=2373
+                                      ->  Index Only Scan using watch_events_2025_08_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_08 w_8  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174185 read=2367
+                                      ->  Index Only Scan using watch_events_2025_09_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_09 w_9  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174248 read=2304
+                                      ->  Index Only Scan using watch_events_2025_10_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_10 w_10  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174198 read=2354
+                                      ->  Index Only Scan using watch_events_2025_11_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_11 w_11  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174228 read=2324
+                                      ->  Index Only Scan using watch_events_2025_12_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_12 w_12  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174216 read=2336
+                                      ->  Index Only Scan using watch_events_2026_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_01 w_13  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174150 read=2402
+                                      ->  Index Only Scan using watch_events_2026_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_02 w_14  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174365 read=2187
+                                      ->  Index Only Scan using watch_events_2026_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_03 w_15  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174162 read=2390
+                                      ->  Index Only Scan using watch_events_2026_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_04 w_16  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174260 read=2292
+                                      ->  Index Only Scan using watch_events_2026_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_05 w_17  (cost=0.42..0.47 rows=2 width=16) (actual time=0.003..0.003 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174197 read=2355
+                                      ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w_18  (cost=0.42..0.45 rows=1 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174285 read=2267
+Planning:
+  Buffers: shared hit=2176 read=184
+Planning Time: 3.942 ms
+Execution Time: 1147.422 ms
+=== R17 Partitioned Run 2 ===
+Sort  (cost=95715.37..95717.06 rows=678 width=60) (actual time=496.638..498.041 rows=525.00 loops=1)
+  Sort Key: (round(((sum(w.watch_seconds))::numeric / 3600.0), 1)) DESC
+  Sort Method: quicksort  Memory: 53kB
+  Buffers: shared hit=3137724 read=55195
+  ->  Finalize GroupAggregate  (cost=95049.81..95683.48 rows=678 width=60) (actual time=495.472..497.944 rows=525.00 loops=1)
+        Group Key: c.handle
+        Filter: (((sum(w.watch_seconds))::numeric / 3600.0) >= '40'::numeric)
+        Rows Removed by Filter: 1493
+        Buffers: shared hit=3137721 read=55195
+        ->  Gather Merge  (cost=95049.81..95618.39 rows=4882 width=36) (actual time=495.457..497.367 rows=6044.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=3137721 read=55195
+              ->  Sort  (cost=94049.78..94054.87 rows=2034 width=36) (actual time=492.894..492.934 rows=2014.67 loops=3)
+                    Sort Key: c.handle
+                    Sort Method: quicksort  Memory: 158kB
+                    Buffers: shared hit=3137721 read=55195
+                    Worker 0:  Sort Method: quicksort  Memory: 158kB
+                    Worker 1:  Sort Method: quicksort  Memory: 158kB
+                    ->  Partial HashAggregate  (cost=93917.67..93938.01 rows=2034 width=36) (actual time=491.414..491.537 rows=2014.67 loops=3)
+                          Group Key: c.handle
+                          Batches: 1  Memory Usage: 217kB
+                          Buffers: shared hit=3137705 read=55195
+                          Worker 0:  Batches: 1  Memory Usage: 217kB
+                          Worker 1:  Batches: 1  Memory Usage: 217kB
+                          ->  Nested Loop  (cost=1665.85..93635.17 rows=56500 width=32) (actual time=2.849..478.749 rows=130414.67 loops=3)
+                                Buffers: shared hit=3137705 read=55195
+                                ->  Hash Join  (cost=1665.42..17565.72 rows=8475 width=40) (actual time=2.783..24.358 rows=19616.33 loops=3)
+                                      Hash Cond: (v.channel_id = c.channel_id)
+                                      Buffers: shared hit=1480 read=13484
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=16) (actual time=0.056..7.296 rows=200000.00 loops=3)
+                                            Buffers: shared read=12744
+                                      ->  Hash  (cost=1640.00..1640.00 rows=2034 width=28) (actual time=2.715..2.716 rows=2018.00 loops=3)
+                                            Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                            Buffers: shared hit=1480 read=740
+                                            ->  Seq Scan on channels c  (cost=0.00..1640.00 rows=2034 width=28) (actual time=0.026..2.592 rows=2018.00 loops=3)
+                                                  Filter: ((subscriber_count >= 100) AND (monetization_status = 'NOT_ELIGIBLE'::text))
+                                                  Rows Removed by Filter: 57982
+                                                  Buffers: shared hit=1480 read=740
+                                ->  Append  (cost=0.42..8.63 rows=35 width=16) (actual time=0.010..0.023 rows=6.65 loops=58849)
+                                      Buffers: shared hit=3136225 read=41711
+                                      ->  Index Only Scan using watch_events_2025_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_01 w_1  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174233 read=2319
+                                      ->  Index Only Scan using watch_events_2025_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_02 w_2  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174355 read=2197
+                                      ->  Index Only Scan using watch_events_2025_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_03 w_3  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174175 read=2377
+                                      ->  Index Only Scan using watch_events_2025_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_04 w_4  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.36 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174266 read=2286
+                                      ->  Index Only Scan using watch_events_2025_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_05 w_5  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174174 read=2378
+                                      ->  Index Only Scan using watch_events_2025_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_06 w_6  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174259 read=2293
+                                      ->  Index Only Scan using watch_events_2025_07_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_07 w_7  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174188 read=2364
+                                      ->  Index Only Scan using watch_events_2025_08_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_08 w_8  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174193 read=2359
+                                      ->  Index Only Scan using watch_events_2025_09_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_09 w_9  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174257 read=2295
+                                      ->  Index Only Scan using watch_events_2025_10_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_10 w_10  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174204 read=2348
+                                      ->  Index Only Scan using watch_events_2025_11_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_11 w_11  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174234 read=2318
+                                      ->  Index Only Scan using watch_events_2025_12_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_12 w_12  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174224 read=2328
+                                      ->  Index Only Scan using watch_events_2026_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_01 w_13  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174157 read=2395
+                                      ->  Index Only Scan using watch_events_2026_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_02 w_14  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174370 read=2182
+                                      ->  Index Only Scan using watch_events_2026_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_03 w_15  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174172 read=2380
+                                      ->  Index Only Scan using watch_events_2026_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_04 w_16  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174268 read=2284
+                                      ->  Index Only Scan using watch_events_2026_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_05 w_17  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174203 read=2349
+                                      ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w_18  (cost=0.42..0.45 rows=1 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174293 read=2259
+Planning:
+  Buffers: shared hit=2162 read=198
+Planning Time: 4.252 ms
+Execution Time: 498.138 ms
+=== R17 Partitioned Run 3 ===
+Sort  (cost=95715.37..95717.06 rows=678 width=60) (actual time=486.663..488.053 rows=525.00 loops=1)
+  Sort Key: (round(((sum(w.watch_seconds))::numeric / 3600.0), 1)) DESC
+  Sort Method: quicksort  Memory: 53kB
+  Buffers: shared hit=3137587 read=55332
+  ->  Finalize GroupAggregate  (cost=95049.81..95683.48 rows=678 width=60) (actual time=485.492..487.956 rows=525.00 loops=1)
+        Group Key: c.handle
+        Filter: (((sum(w.watch_seconds))::numeric / 3600.0) >= '40'::numeric)
+        Rows Removed by Filter: 1493
+        Buffers: shared hit=3137584 read=55332
+        ->  Gather Merge  (cost=95049.81..95618.39 rows=4882 width=36) (actual time=485.480..487.375 rows=6048.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=3137584 read=55332
+              ->  Sort  (cost=94049.78..94054.87 rows=2034 width=36) (actual time=483.257..483.300 rows=2016.00 loops=3)
+                    Sort Key: c.handle
+                    Sort Method: quicksort  Memory: 158kB
+                    Buffers: shared hit=3137584 read=55332
+                    Worker 0:  Sort Method: quicksort  Memory: 158kB
+                    Worker 1:  Sort Method: quicksort  Memory: 158kB
+                    ->  Partial HashAggregate  (cost=93917.67..93938.01 rows=2034 width=36) (actual time=481.819..481.935 rows=2016.00 loops=3)
+                          Group Key: c.handle
+                          Batches: 1  Memory Usage: 217kB
+                          Buffers: shared hit=3137568 read=55332
+                          Worker 0:  Batches: 1  Memory Usage: 217kB
+                          Worker 1:  Batches: 1  Memory Usage: 217kB
+                          ->  Nested Loop  (cost=1665.85..93635.17 rows=56500 width=32) (actual time=2.817..469.165 rows=130414.67 loops=3)
+                                Buffers: shared hit=3137568 read=55332
+                                ->  Hash Join  (cost=1665.42..17565.72 rows=8475 width=40) (actual time=2.764..24.263 rows=19616.33 loops=3)
+                                      Hash Cond: (v.channel_id = c.channel_id)
+                                      Buffers: shared hit=1480 read=13484
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=16) (actual time=0.048..7.072 rows=200000.00 loops=3)
+                                            Buffers: shared read=12744
+                                      ->  Hash  (cost=1640.00..1640.00 rows=2034 width=28) (actual time=2.708..2.708 rows=2018.00 loops=3)
+                                            Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                            Buffers: shared hit=1480 read=740
+                                            ->  Seq Scan on channels c  (cost=0.00..1640.00 rows=2034 width=28) (actual time=0.022..2.574 rows=2018.00 loops=3)
+                                                  Filter: ((subscriber_count >= 100) AND (monetization_status = 'NOT_ELIGIBLE'::text))
+                                                  Rows Removed by Filter: 57982
+                                                  Buffers: shared hit=1480 read=740
+                                ->  Append  (cost=0.42..8.63 rows=35 width=16) (actual time=0.010..0.022 rows=6.65 loops=58849)
+                                      Buffers: shared hit=3136088 read=41848
+                                      ->  Index Only Scan using watch_events_2025_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_01 w_1  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174226 read=2326
+                                      ->  Index Only Scan using watch_events_2025_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_02 w_2  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174347 read=2205
+                                      ->  Index Only Scan using watch_events_2025_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_03 w_3  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174167 read=2385
+                                      ->  Index Only Scan using watch_events_2025_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_04 w_4  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.36 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174259 read=2293
+                                      ->  Index Only Scan using watch_events_2025_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_05 w_5  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174167 read=2385
+                                      ->  Index Only Scan using watch_events_2025_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_06 w_6  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174249 read=2303
+                                      ->  Index Only Scan using watch_events_2025_07_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_07 w_7  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174179 read=2373
+                                      ->  Index Only Scan using watch_events_2025_08_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_08 w_8  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174185 read=2367
+                                      ->  Index Only Scan using watch_events_2025_09_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_09 w_9  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174248 read=2304
+                                      ->  Index Only Scan using watch_events_2025_10_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_10 w_10  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174198 read=2354
+                                      ->  Index Only Scan using watch_events_2025_11_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_11 w_11  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174228 read=2324
+                                      ->  Index Only Scan using watch_events_2025_12_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_12 w_12  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174216 read=2336
+                                      ->  Index Only Scan using watch_events_2026_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_01 w_13  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174150 read=2402
+                                      ->  Index Only Scan using watch_events_2026_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_02 w_14  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174365 read=2187
+                                      ->  Index Only Scan using watch_events_2026_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_03 w_15  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174162 read=2390
+                                      ->  Index Only Scan using watch_events_2026_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_04 w_16  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174260 read=2292
+                                      ->  Index Only Scan using watch_events_2026_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_05 w_17  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174197 read=2355
+                                      ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w_18  (cost=0.42..0.45 rows=1 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174285 read=2267
+Planning:
+  Buffers: shared hit=2176 read=184
+Planning Time: 3.780 ms
+Execution Time: 488.142 ms
+=== R17 Partitioned Run 4 ===
+Sort  (cost=95715.37..95717.06 rows=678 width=60) (actual time=489.834..491.558 rows=525.00 loops=1)
+  Sort Key: (round(((sum(w.watch_seconds))::numeric / 3600.0), 1)) DESC
+  Sort Method: quicksort  Memory: 53kB
+  Buffers: shared hit=3137724 read=55195
+  ->  Finalize GroupAggregate  (cost=95049.81..95683.48 rows=678 width=60) (actual time=488.625..491.452 rows=525.00 loops=1)
+        Group Key: c.handle
+        Filter: (((sum(w.watch_seconds))::numeric / 3600.0) >= '40'::numeric)
+        Rows Removed by Filter: 1493
+        Buffers: shared hit=3137721 read=55195
+        ->  Gather Merge  (cost=95049.81..95618.39 rows=4882 width=36) (actual time=488.609..490.880 rows=6046.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=3137721 read=55195
+              ->  Sort  (cost=94049.78..94054.87 rows=2034 width=36) (actual time=486.001..486.047 rows=2015.33 loops=3)
+                    Sort Key: c.handle
+                    Sort Method: quicksort  Memory: 158kB
+                    Buffers: shared hit=3137721 read=55195
+                    Worker 0:  Sort Method: quicksort  Memory: 158kB
+                    Worker 1:  Sort Method: quicksort  Memory: 158kB
+                    ->  Partial HashAggregate  (cost=93917.67..93938.01 rows=2034 width=36) (actual time=484.626..484.743 rows=2015.33 loops=3)
+                          Group Key: c.handle
+                          Batches: 1  Memory Usage: 217kB
+                          Buffers: shared hit=3137705 read=55195
+                          Worker 0:  Batches: 1  Memory Usage: 217kB
+                          Worker 1:  Batches: 1  Memory Usage: 217kB
+                          ->  Nested Loop  (cost=1665.85..93635.17 rows=56500 width=32) (actual time=2.683..471.836 rows=130414.67 loops=3)
+                                Buffers: shared hit=3137705 read=55195
+                                ->  Hash Join  (cost=1665.42..17565.72 rows=8475 width=40) (actual time=2.631..25.648 rows=19616.33 loops=3)
+                                      Hash Cond: (v.channel_id = c.channel_id)
+                                      Buffers: shared hit=1480 read=13484
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=16) (actual time=0.030..7.436 rows=200000.00 loops=3)
+                                            Buffers: shared read=12744
+                                      ->  Hash  (cost=1640.00..1640.00 rows=2034 width=28) (actual time=2.592..2.593 rows=2018.00 loops=3)
+                                            Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                            Buffers: shared hit=1480 read=740
+                                            ->  Seq Scan on channels c  (cost=0.00..1640.00 rows=2034 width=28) (actual time=0.021..2.473 rows=2018.00 loops=3)
+                                                  Filter: ((subscriber_count >= 100) AND (monetization_status = 'NOT_ELIGIBLE'::text))
+                                                  Rows Removed by Filter: 57982
+                                                  Buffers: shared hit=1480 read=740
+                                ->  Append  (cost=0.42..8.63 rows=35 width=16) (actual time=0.010..0.022 rows=6.65 loops=58849)
+                                      Buffers: shared hit=3136225 read=41711
+                                      ->  Index Only Scan using watch_events_2025_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_01 w_1  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174233 read=2319
+                                      ->  Index Only Scan using watch_events_2025_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_02 w_2  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174355 read=2197
+                                      ->  Index Only Scan using watch_events_2025_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_03 w_3  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174175 read=2377
+                                      ->  Index Only Scan using watch_events_2025_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_04 w_4  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.36 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174266 read=2286
+                                      ->  Index Only Scan using watch_events_2025_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_05 w_5  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174174 read=2378
+                                      ->  Index Only Scan using watch_events_2025_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_06 w_6  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174259 read=2293
+                                      ->  Index Only Scan using watch_events_2025_07_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_07 w_7  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174188 read=2364
+                                      ->  Index Only Scan using watch_events_2025_08_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_08 w_8  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174193 read=2359
+                                      ->  Index Only Scan using watch_events_2025_09_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_09 w_9  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174257 read=2295
+                                      ->  Index Only Scan using watch_events_2025_10_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_10 w_10  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174204 read=2348
+                                      ->  Index Only Scan using watch_events_2025_11_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_11 w_11  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174234 read=2318
+                                      ->  Index Only Scan using watch_events_2025_12_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_12 w_12  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174224 read=2328
+                                      ->  Index Only Scan using watch_events_2026_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_01 w_13  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174157 read=2395
+                                      ->  Index Only Scan using watch_events_2026_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_02 w_14  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174370 read=2182
+                                      ->  Index Only Scan using watch_events_2026_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_03 w_15  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174172 read=2380
+                                      ->  Index Only Scan using watch_events_2026_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_04 w_16  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174268 read=2284
+                                      ->  Index Only Scan using watch_events_2026_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_05 w_17  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174203 read=2349
+                                      ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w_18  (cost=0.42..0.45 rows=1 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174293 read=2259
+Planning:
+  Buffers: shared hit=2162 read=198
+Planning Time: 3.751 ms
+Execution Time: 491.721 ms
+=== R17 Partitioned Run 5 ===
+Sort  (cost=95715.37..95717.06 rows=678 width=60) (actual time=477.872..479.086 rows=525.00 loops=1)
+  Sort Key: (round(((sum(w.watch_seconds))::numeric / 3600.0), 1)) DESC
+  Sort Method: quicksort  Memory: 53kB
+  Buffers: shared hit=3137587 read=55332
+  ->  Finalize GroupAggregate  (cost=95049.81..95683.48 rows=678 width=60) (actual time=476.773..478.991 rows=525.00 loops=1)
+        Group Key: c.handle
+        Filter: (((sum(w.watch_seconds))::numeric / 3600.0) >= '40'::numeric)
+        Rows Removed by Filter: 1493
+        Buffers: shared hit=3137584 read=55332
+        ->  Gather Merge  (cost=95049.81..95618.39 rows=4882 width=36) (actual time=476.753..478.459 rows=6049.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=3137584 read=55332
+              ->  Sort  (cost=94049.78..94054.87 rows=2034 width=36) (actual time=474.410..474.453 rows=2016.33 loops=3)
+                    Sort Key: c.handle
+                    Sort Method: quicksort  Memory: 158kB
+                    Buffers: shared hit=3137584 read=55332
+                    Worker 0:  Sort Method: quicksort  Memory: 158kB
+                    Worker 1:  Sort Method: quicksort  Memory: 158kB
+                    ->  Partial HashAggregate  (cost=93917.67..93938.01 rows=2034 width=36) (actual time=473.003..473.115 rows=2016.33 loops=3)
+                          Group Key: c.handle
+                          Batches: 1  Memory Usage: 217kB
+                          Buffers: shared hit=3137568 read=55332
+                          Worker 0:  Batches: 1  Memory Usage: 217kB
+                          Worker 1:  Batches: 1  Memory Usage: 217kB
+                          ->  Nested Loop  (cost=1665.85..93635.17 rows=56500 width=32) (actual time=2.621..460.789 rows=130414.67 loops=3)
+                                Buffers: shared hit=3137568 read=55332
+                                ->  Hash Join  (cost=1665.42..17565.72 rows=8475 width=40) (actual time=2.567..22.667 rows=19616.33 loops=3)
+                                      Hash Cond: (v.channel_id = c.channel_id)
+                                      Buffers: shared hit=1480 read=13484
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=16) (actual time=0.031..6.796 rows=200000.00 loops=3)
+                                            Buffers: shared read=12744
+                                      ->  Hash  (cost=1640.00..1640.00 rows=2034 width=28) (actual time=2.529..2.529 rows=2018.00 loops=3)
+                                            Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                            Buffers: shared hit=1480 read=740
+                                            ->  Seq Scan on channels c  (cost=0.00..1640.00 rows=2034 width=28) (actual time=0.023..2.404 rows=2018.00 loops=3)
+                                                  Filter: ((subscriber_count >= 100) AND (monetization_status = 'NOT_ELIGIBLE'::text))
+                                                  Rows Removed by Filter: 57982
+                                                  Buffers: shared hit=1480 read=740
+                                ->  Append  (cost=0.42..8.63 rows=35 width=16) (actual time=0.010..0.022 rows=6.65 loops=58849)
+                                      Buffers: shared hit=3136088 read=41848
+                                      ->  Index Only Scan using watch_events_2025_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_01 w_1  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174226 read=2326
+                                      ->  Index Only Scan using watch_events_2025_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_02 w_2  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174347 read=2205
+                                      ->  Index Only Scan using watch_events_2025_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_03 w_3  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174167 read=2385
+                                      ->  Index Only Scan using watch_events_2025_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_04 w_4  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.36 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174259 read=2293
+                                      ->  Index Only Scan using watch_events_2025_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_05 w_5  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174167 read=2385
+                                      ->  Index Only Scan using watch_events_2025_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_06 w_6  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174249 read=2303
+                                      ->  Index Only Scan using watch_events_2025_07_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_07 w_7  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174179 read=2373
+                                      ->  Index Only Scan using watch_events_2025_08_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_08 w_8  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174185 read=2367
+                                      ->  Index Only Scan using watch_events_2025_09_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_09 w_9  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174248 read=2304
+                                      ->  Index Only Scan using watch_events_2025_10_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_10 w_10  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174198 read=2354
+                                      ->  Index Only Scan using watch_events_2025_11_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_11 w_11  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174228 read=2324
+                                      ->  Index Only Scan using watch_events_2025_12_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_12 w_12  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174216 read=2336
+                                      ->  Index Only Scan using watch_events_2026_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_01 w_13  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174150 read=2402
+                                      ->  Index Only Scan using watch_events_2026_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_02 w_14  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174365 read=2187
+                                      ->  Index Only Scan using watch_events_2026_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_03 w_15  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174162 read=2390
+                                      ->  Index Only Scan using watch_events_2026_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_04 w_16  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174260 read=2292
+                                      ->  Index Only Scan using watch_events_2026_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_05 w_17  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174197 read=2355
+                                      ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w_18  (cost=0.42..0.45 rows=1 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174285 read=2267
+Planning:
+  Buffers: shared hit=2176 read=184
+Planning Time: 3.591 ms
+Execution Time: 479.171 ms
+=== R17 Partitioned Run 6 ===
+Sort  (cost=95715.37..95717.06 rows=678 width=60) (actual time=489.518..490.710 rows=525.00 loops=1)
+  Sort Key: (round(((sum(w.watch_seconds))::numeric / 3600.0), 1)) DESC
+  Sort Method: quicksort  Memory: 53kB
+  Buffers: shared hit=3137724 read=55195
+  ->  Finalize GroupAggregate  (cost=95049.81..95683.48 rows=678 width=60) (actual time=488.353..490.601 rows=525.00 loops=1)
+        Group Key: c.handle
+        Filter: (((sum(w.watch_seconds))::numeric / 3600.0) >= '40'::numeric)
+        Rows Removed by Filter: 1493
+        Buffers: shared hit=3137721 read=55195
+        ->  Gather Merge  (cost=95049.81..95618.39 rows=4882 width=36) (actual time=488.340..490.016 rows=6048.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=3137721 read=55195
+              ->  Sort  (cost=94049.78..94054.87 rows=2034 width=36) (actual time=485.521..485.564 rows=2016.00 loops=3)
+                    Sort Key: c.handle
+                    Sort Method: quicksort  Memory: 159kB
+                    Buffers: shared hit=3137721 read=55195
+                    Worker 0:  Sort Method: quicksort  Memory: 158kB
+                    Worker 1:  Sort Method: quicksort  Memory: 158kB
+                    ->  Partial HashAggregate  (cost=93917.67..93938.01 rows=2034 width=36) (actual time=484.118..484.224 rows=2016.00 loops=3)
+                          Group Key: c.handle
+                          Batches: 1  Memory Usage: 217kB
+                          Buffers: shared hit=3137705 read=55195
+                          Worker 0:  Batches: 1  Memory Usage: 217kB
+                          Worker 1:  Batches: 1  Memory Usage: 217kB
+                          ->  Nested Loop  (cost=1665.85..93635.17 rows=56500 width=32) (actual time=2.850..471.237 rows=130414.67 loops=3)
+                                Buffers: shared hit=3137705 read=55195
+                                ->  Hash Join  (cost=1665.42..17565.72 rows=8475 width=40) (actual time=2.797..23.209 rows=19616.33 loops=3)
+                                      Hash Cond: (v.channel_id = c.channel_id)
+                                      Buffers: shared hit=1480 read=13484
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=16) (actual time=0.033..7.250 rows=200000.00 loops=3)
+                                            Buffers: shared read=12744
+                                      ->  Hash  (cost=1640.00..1640.00 rows=2034 width=28) (actual time=2.756..2.756 rows=2018.00 loops=3)
+                                            Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                            Buffers: shared hit=1480 read=740
+                                            ->  Seq Scan on channels c  (cost=0.00..1640.00 rows=2034 width=28) (actual time=0.024..2.620 rows=2018.00 loops=3)
+                                                  Filter: ((subscriber_count >= 100) AND (monetization_status = 'NOT_ELIGIBLE'::text))
+                                                  Rows Removed by Filter: 57982
+                                                  Buffers: shared hit=1480 read=740
+                                ->  Append  (cost=0.42..8.63 rows=35 width=16) (actual time=0.010..0.022 rows=6.65 loops=58849)
+                                      Buffers: shared hit=3136225 read=41711
+                                      ->  Index Only Scan using watch_events_2025_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_01 w_1  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174233 read=2319
+                                      ->  Index Only Scan using watch_events_2025_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_02 w_2  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174355 read=2197
+                                      ->  Index Only Scan using watch_events_2025_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_03 w_3  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174175 read=2377
+                                      ->  Index Only Scan using watch_events_2025_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_04 w_4  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.36 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174266 read=2286
+                                      ->  Index Only Scan using watch_events_2025_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_05 w_5  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174174 read=2378
+                                      ->  Index Only Scan using watch_events_2025_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_06 w_6  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174259 read=2293
+                                      ->  Index Only Scan using watch_events_2025_07_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_07 w_7  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174188 read=2364
+                                      ->  Index Only Scan using watch_events_2025_08_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_08 w_8  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174193 read=2359
+                                      ->  Index Only Scan using watch_events_2025_09_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_09 w_9  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174257 read=2295
+                                      ->  Index Only Scan using watch_events_2025_10_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_10 w_10  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174204 read=2348
+                                      ->  Index Only Scan using watch_events_2025_11_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_11 w_11  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174234 read=2318
+                                      ->  Index Only Scan using watch_events_2025_12_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_12 w_12  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174224 read=2328
+                                      ->  Index Only Scan using watch_events_2026_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_01 w_13  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174157 read=2395
+                                      ->  Index Only Scan using watch_events_2026_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_02 w_14  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174370 read=2182
+                                      ->  Index Only Scan using watch_events_2026_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_03 w_15  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174172 read=2380
+                                      ->  Index Only Scan using watch_events_2026_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_04 w_16  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174268 read=2284
+                                      ->  Index Only Scan using watch_events_2026_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_05 w_17  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174203 read=2349
+                                      ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w_18  (cost=0.42..0.45 rows=1 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174293 read=2259
+Planning:
+  Buffers: shared hit=2162 read=198
+Planning Time: 4.414 ms
+Execution Time: 490.822 ms
+=== R17 Partitioned Run 7 ===
+Sort  (cost=95715.37..95717.06 rows=678 width=60) (actual time=470.787..471.978 rows=525.00 loops=1)
+  Sort Key: (round(((sum(w.watch_seconds))::numeric / 3600.0), 1)) DESC
+  Sort Method: quicksort  Memory: 53kB
+  Buffers: shared hit=3137587 read=55332
+  ->  Finalize GroupAggregate  (cost=95049.81..95683.48 rows=678 width=60) (actual time=469.660..471.883 rows=525.00 loops=1)
+        Group Key: c.handle
+        Filter: (((sum(w.watch_seconds))::numeric / 3600.0) >= '40'::numeric)
+        Rows Removed by Filter: 1493
+        Buffers: shared hit=3137584 read=55332
+        ->  Gather Merge  (cost=95049.81..95618.39 rows=4882 width=36) (actual time=469.651..471.334 rows=6050.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=3137584 read=55332
+              ->  Sort  (cost=94049.78..94054.87 rows=2034 width=36) (actual time=467.641..467.683 rows=2016.67 loops=3)
+                    Sort Key: c.handle
+                    Sort Method: quicksort  Memory: 158kB
+                    Buffers: shared hit=3137584 read=55332
+                    Worker 0:  Sort Method: quicksort  Memory: 158kB
+                    Worker 1:  Sort Method: quicksort  Memory: 158kB
+                    ->  Partial HashAggregate  (cost=93917.67..93938.01 rows=2034 width=36) (actual time=466.274..466.389 rows=2016.67 loops=3)
+                          Group Key: c.handle
+                          Batches: 1  Memory Usage: 217kB
+                          Buffers: shared hit=3137568 read=55332
+                          Worker 0:  Batches: 1  Memory Usage: 217kB
+                          Worker 1:  Batches: 1  Memory Usage: 217kB
+                          ->  Nested Loop  (cost=1665.85..93635.17 rows=56500 width=32) (actual time=2.747..454.530 rows=130414.67 loops=3)
+                                Buffers: shared hit=3137568 read=55332
+                                ->  Hash Join  (cost=1665.42..17565.72 rows=8475 width=40) (actual time=2.693..22.920 rows=19616.33 loops=3)
+                                      Hash Cond: (v.channel_id = c.channel_id)
+                                      Buffers: shared hit=1480 read=13484
+                                      ->  Parallel Seq Scan on videos v  (cost=0.00..15244.00 rows=250000 width=16) (actual time=0.036..7.218 rows=200000.00 loops=3)
+                                            Buffers: shared read=12744
+                                      ->  Hash  (cost=1640.00..1640.00 rows=2034 width=28) (actual time=2.650..2.650 rows=2018.00 loops=3)
+                                            Buckets: 2048  Batches: 1  Memory Usage: 142kB
+                                            Buffers: shared hit=1480 read=740
+                                            ->  Seq Scan on channels c  (cost=0.00..1640.00 rows=2034 width=28) (actual time=0.023..2.525 rows=2018.00 loops=3)
+                                                  Filter: ((subscriber_count >= 100) AND (monetization_status = 'NOT_ELIGIBLE'::text))
+                                                  Rows Removed by Filter: 57982
+                                                  Buffers: shared hit=1480 read=740
+                                ->  Append  (cost=0.42..8.63 rows=35 width=16) (actual time=0.010..0.022 rows=6.65 loops=58849)
+                                      Buffers: shared hit=3136088 read=41848
+                                      ->  Index Only Scan using watch_events_2025_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_01 w_1  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174226 read=2326
+                                      ->  Index Only Scan using watch_events_2025_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_02 w_2  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174347 read=2205
+                                      ->  Index Only Scan using watch_events_2025_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_03 w_3  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174167 read=2385
+                                      ->  Index Only Scan using watch_events_2025_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_04 w_4  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.36 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174259 read=2293
+                                      ->  Index Only Scan using watch_events_2025_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_05 w_5  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174167 read=2385
+                                      ->  Index Only Scan using watch_events_2025_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_06 w_6  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174249 read=2303
+                                      ->  Index Only Scan using watch_events_2025_07_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_07 w_7  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174179 read=2373
+                                      ->  Index Only Scan using watch_events_2025_08_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_08 w_8  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174185 read=2367
+                                      ->  Index Only Scan using watch_events_2025_09_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_09 w_9  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174248 read=2304
+                                      ->  Index Only Scan using watch_events_2025_10_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_10 w_10  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174198 read=2354
+                                      ->  Index Only Scan using watch_events_2025_11_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_11 w_11  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174228 read=2324
+                                      ->  Index Only Scan using watch_events_2025_12_video_id_started_at_user_id_traffic_so_idx on watch_events_2025_12 w_12  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174216 read=2336
+                                      ->  Index Only Scan using watch_events_2026_01_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_01 w_13  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174150 read=2402
+                                      ->  Index Only Scan using watch_events_2026_02_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_02 w_14  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.34 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174365 read=2187
+                                      ->  Index Only Scan using watch_events_2026_03_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_03 w_15  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174162 read=2390
+                                      ->  Index Only Scan using watch_events_2026_04_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_04 w_16  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174260 read=2292
+                                      ->  Index Only Scan using watch_events_2026_05_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_05 w_17  (cost=0.42..0.47 rows=2 width=16) (actual time=0.001..0.001 rows=0.38 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174197 read=2355
+                                      ->  Index Only Scan using watch_events_2026_06_video_id_started_at_user_id_traffic_so_idx on watch_events_2026_06 w_18  (cost=0.42..0.45 rows=1 width=16) (actual time=0.001..0.001 rows=0.37 loops=58849)
+                                            Index Cond: (video_id = (v.video_id)::text)
+                                            Heap Fetches: 0
+                                            Index Searches: 58849
+                                            Buffers: shared hit=174285 read=2267
+Planning:
+  Buffers: shared hit=2176 read=184
+Planning Time: 4.313 ms
+Execution Time: 472.063 ms
